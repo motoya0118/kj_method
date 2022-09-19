@@ -1,6 +1,6 @@
 # README
 ## 開発言語
-ruby 3.0.4
+ruby 3.0.4  
 Rails 6.1.7
 
 ## アプリケーションに取り入れる技術(就業Termで学んだもの)
@@ -11,6 +11,8 @@ Rails 6.1.7
 ## アプリケーションに取り入れる技術(カリキュラム外)
 1. Vue.js
 2. vuedraggable
+3. omniauth-twitter
+
 
 ## アプリケーションの実行手順
 ```:terminal
@@ -29,8 +31,8 @@ https://docs.google.com/spreadsheets/d/19gBtQsl7c9of99eKK8OHd9e151jE3XiGQxx48oJt
 ### ワイヤーフレーム
 https://www.figma.com/proto/m8tBgLYaRxZ22maLygL4gL/Untitled?node-id=0%3A3&starting-point-node-id=0%3A3
 
-### RE図
-![デジタルKJ法_ER図](https://user-images.githubusercontent.com/90805736/190634533-b1669349-316d-48b3-9c92-dc882feb7139.png)
+### ER図
+![デジタルKJ法_ER図](https://user-images.githubusercontent.com/90805736/190960682-5ca6687b-f2ab-490a-bd46-a2bee8097d62.png)
 
 
 ### 画面遷移図
