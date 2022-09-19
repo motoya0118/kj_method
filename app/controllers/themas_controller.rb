@@ -13,6 +13,7 @@ class ThemasController < ApplicationController
   # GET /themas/new
   def new
     @thema = Thema.new
+    @thema.questions.build
   end
 
   # GET /themas/1/edit
@@ -65,6 +66,6 @@ class ThemasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def thema_params
-      params.require(:thema).permit(:name, :purpose, :lock)
+      params.require(:thema).permit(:name, :purpose, :lock,questions_attributes:[:question])
     end
 end

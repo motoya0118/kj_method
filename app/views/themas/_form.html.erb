@@ -12,21 +12,22 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
+    <%= form.label :name ,value='テーマ名' %>
     <%= form.text_field :name %>
   </div>
 
   <div class="field">
-    <%= form.label :purpose %>
+    <%= form.label :purpose, velue='目的' %>
     <%= form.text_field :purpose %>
   </div>
-
-  <div class="field">
-    <%= form.label :lock %>
-    <%= form.check_box :lock %>
-  </div>
+   <%= form.fields_for :questions do | question | %>
+    <div class="field">
+      <%= question.label :question, value="質問#{question.index + 1}" %>
+      <%= question.text_field :question %>
+    </div>
+   <% end %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit value='送信'%>
   </div>
 <% end %>
