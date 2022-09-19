@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @thema.name %>
+</p>
+
+<p>
+  <strong>Purpose:</strong>
+  <%= @thema.purpose %>
+</p>
+
+<p>
+  <strong>Lock:</strong>
+  <%= @thema.lock %>
+</p>
+
+<%= link_to 'Edit', edit_thema_path(@thema) %> |
+<%= link_to 'Back', themas_path %>
