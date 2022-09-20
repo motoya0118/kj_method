@@ -1,4 +1,4 @@
-<%= form_with(model: thema) do |form| %>
+<%= form_with(model: thema, local: true) do |form| %>
   <% if thema.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(thema.errors.count, "error") %> prohibited this thema from being saved:</h2>
@@ -20,14 +20,12 @@
     <%= form.label :purpose, velue='目的' %>
     <%= form.text_field :purpose %>
   </div>
-   <%= form.fields_for :questions do | question | %>
-    <div class="field">
-      <%= question.label :question, value="質問#{question.index + 1}" %>
-      <%= question.text_field :question %>
-    </div>
-   <% end %>
+  <%= form.fields_for :questions do | question | %>
+    <%= render "themas/question_fields", f: question %>
+  <% end %>
 
   <div class="actions">
+    <%= link_to_add_association "追加", form, :questions %>
     <%= form.submit value='送信'%>
   </div>
 <% end %>
