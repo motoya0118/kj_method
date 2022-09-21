@@ -1,5 +1,5 @@
 class ThemasController < ApplicationController
-  before_action :set_thema, only: %i[ show edit update destroy ]
+  before_action :set_thema, only: %i[ show edit update destroy confirm lock]
 
   # GET /themas or /themas.json
   def index
@@ -58,6 +58,14 @@ class ThemasController < ApplicationController
     end
   end
 
+  def confirm
+  end
+
+  def lock
+    @thema.update(lock: true)
+    render :confirm
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_thema
@@ -66,6 +74,6 @@ class ThemasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def thema_params
-      params.require(:thema).permit(:name, :purpose, :lock,questions_attributes:[:id, :question])
+      params.require(:thema).permit(:name, :purpose, :lock,questions_attributes:[:id, :question,:_destroy])
     end
 end

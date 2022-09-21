@@ -1,0 +1,2 @@
+module Themas::AnswersHelper
+end
