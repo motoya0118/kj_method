@@ -51,6 +51,15 @@ RSpec.describe '質問・回答機能', type: :system do
       before do
         FactoryBot.create(:question)
       end
+      it 'thema_lockがfalseの場合,thema・questionの情報が編集不可になる' do
+        thema = Thema.last
+        visit edit_thema_path(thema.id)
+        expect(current_url).to have_content "themas/#{thema.id}/edit"
+        thema.update(lock: true)
+        visit edit_thema_path(thema.id)
+        binding.pry
+        expect(current_url).to have_no_content "themas/#{thema.id}/edit"
+      end
       it 'thema_lockがfalseの場合、thema#showにリダイレクトされる' do
         thema = Thema.last
         expect(thema.lock).to eq(false)
@@ -126,5 +135,6 @@ RSpec.describe '質問・回答機能', type: :system do
         expect(page).to have_content "themas/#{Thema.last.id}/answers/new"
       end
     end
+    
   end
 end
