@@ -1,0 +1,19 @@
+<h1>回答一覧</h1>
+
+<% @thema.questions.each.with_index(1) do |question,index|%>
+  <h2><%= "質問#{index}"%></h2>
+  <div><%= question.question %></div>
+
+  <table>
+    <tr>
+      <th>回答者</th>
+      <th>回答内容</th>
+    </tr>
+    <% question.answers.each do |answer| %>
+      <tr>
+        <td>後で追加</td>
+        <td><%= answer.answer %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

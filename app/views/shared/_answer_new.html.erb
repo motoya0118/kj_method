@@ -1,0 +1,53 @@
+<h1>new</h1>
+<%= form_with(model: @question) do |form| %>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+        <% @question.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <h2>回答終了目安タイマー</h2>
+  <div><span id="timer">120</span>秒</div>
+
+  <h2>テーマ名</h2>
+  <div><%= @question.thema.name%></div>
+
+  <h2>目的</h2>
+  <div><%= @question.thema.purpose%></div>
+
+  <h2>質問</h2>
+  <div><%= @question.question%></div>
+
+  <div class='hidden'>
+    <%= form.hidden_field :id, :value => @question.id %>
+    <%= form.hidden_field :ids, :value => @question_ids %>
+  </div>
+
+  <%= form.fields_for :answers do | answer | %>
+    <% if controller.controller_name == "questions"%>
+      <%= render "questions/answer_fields", f: answer %>
+    <% else %>
+      <%= render "answers/answer_fields", f: answer %>
+    <% end %>
+  <% end %>
+  <div class="actions">
+    <%= link_to_add_association "追加", form, :answers %>
+    <%= form.submit value='送信'%>
+  </div>
+<% end %>
+
+<script>
+  function countdown(){
+    var timers = document.getElementById('timer')
+    const sec = timers.textContent
+    const diff = sec - 1
+    diff > 0 ? timers.textContent = diff : timers.textContent = 0
+    setTimeout(countdown,1000);
+  }
+  countdown();
+</script>

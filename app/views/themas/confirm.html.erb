@@ -1,0 +1,36 @@
+<h1>回答用URL確認</h1>
+<br>
+<% unless @thema.lock %>
+  <h2>【注意】
+    <br>回答用URLを発行すると
+    <br>以下のテーマ名・目的・質問でテーマをロックします。
+  </h2>
+
+  <%= link_to 'テーマ・質問編集', edit_thema_path(@thema.id)%>
+  <%= link_to '回答用URL発行', lock_thema_path(@thema.id)%>
+<% else %>
+  <h2>回答用URL発行済</h2><br>
+  <div>
+    <span>回答用URL</span>
+    <%= link_to "http://localhost:3000#{new_answer_path(@thema.id)}", new_answer_path(@thema.id)%>
+  </div>
+
+<% end %>
+
+<table>
+  <tr>
+    <td>テーマ名</td>
+    <td><%= @thema.name %></td>
+  </tr>
+  <tr>
+    <td>目的</td>
+    <td><%= @thema.purpose %></td>
+  </tr>
+  <% @thema.questions.each.with_index(1) do |question, index| %>
+    <tr>
+      <td><%= "質問#{index}" %></td>
+      <td><%= question.question %></td>
+    </tr>
+  <% end %>
+</table>
+
