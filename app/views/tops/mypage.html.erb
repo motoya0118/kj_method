@@ -1,0 +1,14 @@
+<h1>マイページ</h1>
+
+<p><%= "#{current_user.name}(@#{current_user.nickname})さんのページ"%></p>
+<%= link_to 'ユーザー削除する',confirm_path%>
+
+<ul>作成済のテーマ
+  <% unless current_user.themas.length == 0 %>
+  <% current_user.themas.each do |thema| %>
+    <li><%= link_to "#{thema.name}",  thema_path(thema) %></li>
+  <% end %>
+  <% else %>
+  <li>未作成</li>
+  <% end %>
+</ul>
