@@ -18,6 +18,9 @@ class ThemasController < ApplicationController
 
   # GET /themas/1/edit
   def edit
+    if @thema.lock
+      redirect_to thema_path(@thema.id), notice: 'URL発行済のため編集不可です'
+    end
   end
 
   # POST /themas or /themas.json
