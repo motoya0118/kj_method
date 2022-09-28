@@ -13,6 +13,15 @@ class AnswersController < ApplicationController
       @question.answers.build
     end
   end
+  
+  def make_session
+    unless current_user
+      session['url'] = request.fullpath
+      redirect_to root_path
+    else
+      session['url'] = nil
+    end
+  end
 
   private
   def thema_params

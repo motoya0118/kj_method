@@ -14,6 +14,10 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'rexml'
 gem 'cocoon'
 gem 'acts_as_list'
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-rails_csrf_protection'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -24,6 +28,7 @@ group :development, :test do
   gem 'faker'
   gem 'launchy'
   gem 'pry-rails'
+  gem 'dotenv-rails'
 end
 
 group :development do

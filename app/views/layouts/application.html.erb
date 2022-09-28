@@ -13,6 +13,14 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-light bg-primary justify-content-start mb-2">
+      <% if user_signed_in? %>
+        <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-link text-white border p-1"%>
+      <% else %>
+        <%= link_to "Sign up", login_path ,class: "nav-link border-right text-white border p-1"%>
+        <%= link_to "Login", login_path ,class: "nav-link text-white border p-1"%>
+      <% end %>
+    </nav>
     <%= yield %>
   </body>
 </html>

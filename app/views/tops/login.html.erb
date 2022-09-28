@@ -1,0 +1,9 @@
+<h1>login</h1>
+<p><%= notice %><%= alert %></p>
+<% if user_signed_in? %>
+  <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+<% else %>
+  <%= link_to 'Twitterでサインアップしてね', user_twitter_omniauth_authorize_path, method: :post %>
+<% end %>
+<br>
+<%# <%= link_to 'make_session', answer_make_session_path(7), method: :get  %>
