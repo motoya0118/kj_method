@@ -57,7 +57,6 @@ RSpec.describe '質問・回答機能', type: :system do
         expect(current_url).to have_content "themas/#{thema.id}/edit"
         thema.update(lock: true)
         visit edit_thema_path(thema.id)
-        binding.pry
         expect(current_url).to have_no_content "themas/#{thema.id}/edit"
       end
       it 'thema_lockがfalseの場合、thema#showにリダイレクトされる' do
@@ -134,7 +133,84 @@ RSpec.describe '質問・回答機能', type: :system do
         expect(page).to have_content '回答用URL発行済'
         expect(page).to have_content "themas/#{Thema.last.id}/answers/new"
       end
+    end   
+  end
+  describe 'themaメインページ' do
+    before do
+      FactoryBot.create(:question_lock_false)
+      FactoryBot.create(:question_only, thema_id: Thema.last.id)
+      FactoryBot.create(:question_only, thema_id: Thema.last.id)
+      question_ids = Question.all.ids
+      FactoryBot.create(:answer, question_id: question_ids[0])
+      FactoryBot.create(:answer2, question_id: question_ids[1])
+      FactoryBot.create(:answer3, question_id: question_ids[2])
     end
-    
+    context 'lockがfalseの場合' do
+      before do
+        visit thema_path(Thema.last)
+      end
+      it '(テーマ・質問編集画面)へリンクが存在するo' do
+        click_on 'テーマ・質問編集画面'
+        expect(current_url).to have_content "/themas/#{Thema.last.id}/edit"
+      end
+      it '(回答URL確認画面)へリンクが存在するo' do
+        click_on '回答URL確認画面'
+        expect(current_url).to have_content "/themas/#{Thema.last.id}/confirm"
+      end
+      it '(回答一覧・KJ法実施)へリンクが存在しないx' do
+        base_url = current_url
+        expect{click_on '回答一覧'}.to raise_error
+        expect{click_on 'KJ法実施'}.to raise_error
+      end
+    end
+    context 'lockがtrueかつ、データを取り込んでいない場合(Place.find_by(id:@thema.id)がnil)' do
+      before do
+        Thema.last.update(lock: true)
+        visit thema_path(Thema.last)
+      end
+      it '(回答URL確認画面)へリンクが存在するo' do
+        click_on '回答URL確認画面'
+        expect(current_url).to have_content "/themas/#{Thema.last.id}/confirm"
+      end
+      it '(回答一覧)へリンクが存在するo' do
+        click_on '回答一覧'
+        expect(current_url).to have_content "/themas/#{Thema.last.id}/answers"
+      end
+      it '(KJ法実施new)へリンクが存在するo' do
+        click_on 'KJ法実施'
+        expect(current_url).to have_content "/themas/#{Thema.last.id}/places/new"
+      end
+      it '(KJ法結果・テーマ・質問編集画面)へリンクが存在しない' do
+        expect{click_on 'KJ法結果'}.to raise_error
+        expect{click_on 'テーマ・質問編集画面'}.to raise_error
+      end
+    end
+    context 'lockがtrueかつ、データ取込済の場合(Place.find_by(id:@thema.id)がtrue)' do
+      before do
+        Thema.last.update(lock: true)
+        visit new_place_path(Thema.last)
+        click_on '取込'
+        visit thema_path(Thema.last)
+      end
+      it '(回答URL確認画面)へリンクが存在するo' do
+        click_on '回答URL確認画面'
+        expect(current_url).to have_content "/themas/#{Thema.last.id}/confirm"
+      end
+      it '(回答一覧)へリンクが存在するo' do
+        click_on '回答一覧'
+        expect(current_url).to have_content "/themas/#{Thema.last.id}/answers"
+      end
+      it '(KJ法実施edit)へリンクが存在するo' do
+        click_on 'KJ法実施'
+        expect(current_url).to have_content "/themas/#{Place.find_by(thema_id:Thema.last.id).id}/places/#{Place.find_by(thema_id:Thema.last.id).id}/edit"
+      end
+      it '(KJ法結果)へリンクが存在するo' do
+        click_on 'KJ法結果'
+        expect(current_url).to have_content "/themas/#{Place.find_by(thema_id:Thema.last.id).id}/places/#{Place.find_by(thema_id:Thema.last.id).id}"
+      end
+      it '(テーマ・質問編集画面)へリンクが存在しない' do
+        expect{click_on 'テーマ・質問編集画面'}.to raise_error
+      end
+    end
   end
 end

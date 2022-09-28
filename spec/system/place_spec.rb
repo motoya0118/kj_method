@@ -18,5 +18,93 @@ RSpec.describe 'KJ法実施機能', type: :system do
         expect(Card.all.length).to eq 3
       end
     end
+    context 'kj法実施画面' , js: true do
+      before do
+        visit new_place_path(Thema.last.id)
+        click_on '取込'
+        FactoryBot.create(:large_group, place_id: Place.last.id)    
+        FactoryBot.create(:small_group, large_group_id: LargeGroup.last.id)    
+        visit edit_place_path(Place.last.id)
+      end
+      it 'largeが移動可能' do
+        expect(all('.list')[1]).to have_content '質問1'
+        all('.list')[0].drag_to all('.list')[1]
+        sleep(1)
+        expect(all('.list')[1]).to have_no_content '質問1'
+      end
+      it 'smallが移動可能' do
+        expect(all('.list')[0]).to have_content 'Small_Test_Group'
+        all('.small')[0].drag_to all('.small')[1]
+        sleep(1)
+        expect(all('.list')[0]).to have_no_content 'Small_Test_Group'
+      end
+      it 'cardが移動可能' do
+        expect(all('.list')[1]).to have_content 'Answer_No_1'
+        all('.card')[0].drag_to all('.small')[0]
+        sleep(1)
+        expect(all('.list')[1]).to have_no_content 'Answer_No_1'
+      end
+      it 'largeが削除可能' do
+        expect(all('.list').length).to eq 2
+        all('.list')[0].double_click
+        sleep(1)
+        expect(all('.list').length).to eq 1
+      end
+      it 'smallが削除可能' do
+        expect(all('.small').length).to eq 2
+        all('.small')[0].double_click
+        sleep(1)
+        expect(all('.small').length).to eq 1
+      end
+      it 'cardが削除可能' do
+        expect(all('.card').length).to eq 3
+        all('.card')[0].double_click
+        sleep(1)
+        expect(all('.card').length).to eq 2
+      end
+      it 'largeが編集可能' do
+        expect(all('.list')[0]).to have_content 'MyString'
+        expect(all('.list')[0]).to have_no_content 'Next_Type_Text'
+        all('.list')[0].click
+        sleep(1)
+        all('input')[0].set('Next_Type_Text').send_keys(:tab)
+        expect(all('.list')[0]).to have_no_content 'MyString'
+        expect(all('.list')[0]).to have_content 'Next_Type_Text'
+      end
+      it 'smallが編集可能' do
+        expect(all('.small')[0]).to have_content 'Small_Test_Group'
+        expect(all('.small')[0]).to have_no_content 'Next_Type_Text'
+        all('.small')[0].click
+        sleep(1)
+        all('input')[0].set('Next_Type_Text').send_keys(:tab)
+        expect(all('.small')[0]).to have_no_content 'Small_Test_Group'
+        expect(all('.small')[0]).to have_content 'Next_Type_Text'
+      end
+      it 'cardが編集可能' do
+        expect(all('.card')[0]).to have_content 'Answer_No_1'
+        expect(all('.card')[0]).to have_no_content 'Next_Type_Text'
+        all('.card')[0].click
+        sleep(1)
+        all('input')[0].set('Next_Type_Text').send_keys(:tab)
+        expect(all('.card')[0]).to have_no_content 'Answer_No_1'
+        expect(all('.card')[0]).to have_content 'Next_Type_Text'
+      end
+      # it 'largeが追加可能' do #<== D&Dが上手くできない(Qiita質問中)
+      #   # target = find('.bigs')
+      #   # drop_place = all('.repalce-target')[0]
+      #   # el1 = page.driver.browser.find_element(class_name: "bigs")
+      #   els = page.driver.browser.find_elements(class_name: "list")
+      #   el1 = els[0]
+      #   el2 = els[1]
+      #   page.driver.browser.action.drag_and_drop(el1, el2).perform
+      #   # binding.pry
+      #   # sleep(3)
+      #   # page.driver.browser.action.move_by(100,300).perform
+      #   # page.driver.browser.action.drag_and_drop_by(target.native, 10, 100).perform
+      #   # target.drag_to drop_place
+      #   sleep(3)
+      #   binding.pry
+      # end
+    end
   end
 end

@@ -40,9 +40,9 @@ class PlacesController < ApplicationController
   # PATCH/PUT /themas/1 or /themas/1.json
   def update
     respond_to do |format|
-      if @thema.update(thema_params)
-        format.html { redirect_to thema_url(@thema), notice: "thema was successfully updated." }
-        format.json { render :show, status: :ok, location: @thema }
+      if @place.update(place_params)
+        format.html { redirect_to thema_url(@place), notice: "thema was successfully updated." }
+        format.json { }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @thema.errors, status: :unprocessable_entity }
@@ -67,7 +67,7 @@ class PlacesController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def thema_params
+    def place_params
       params.require(:place).permit(:public, :thema_id)
     end
 end

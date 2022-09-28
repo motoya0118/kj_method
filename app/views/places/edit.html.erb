@@ -1,6 +1,18 @@
-<h1>Editing Place</h1>
+<nav class="navbar navbar-expand-sm navbar-info bg-info mt-3 mb-3">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul id="insert" class="navbar-nav mr-auto">
+      <li id="mode1" class="nav-item active">モード1</li>
+      <li id="mode2" class="nav-item active">モード2</li>
+      <li id="mode3" class="nav-item active">モード3</li>
+      <li id="mode4" class="nav-item active">モード4</li>
+      <li id="mode5" class="nav-item active">モード5</li>
+    </ul>
+  </div>
+</nav>
 
-<%= render 'form', place: @place %>
 
-<%= link_to 'Show', @place %> |
+<%= tag.div id: :boards, data: { disabled: false, public: @place.public ,id: @place.id,lists: @place.large_groups.to_json(include: {small_groups: {include: :cards}}) } %>
+
+<%= link_to 'Show', @place ,class:'repalce-target'%> |
 <%= link_to 'Back', places_path %>
+<%= javascript_pack_tag 'hello_vue' %>

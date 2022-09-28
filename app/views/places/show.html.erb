@@ -1,14 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Public:</strong>
-  <%= @place.public %>
-</p>
-
-<p>
-  <strong>Thema:</strong>
-  <%= @place.thema_id %>
-</p>
+<%= tag.div id: :boards, data: { disabled: true, id: @place.id,public: @place.public, lists: @place.large_groups.to_json(include: {small_groups: {include: :cards}}) } %>
 
 <%= link_to 'Edit', edit_place_path(@place) %> |
 <%= link_to 'Back', places_path %>

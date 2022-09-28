@@ -2,14 +2,29 @@
 <h1>メインページ</h1>
 
 <p>
-  <strong>Name:</strong>
+  <strong>テーマ名:</strong>
   <%= @thema.name %>
 </p>
 
 <p>
-  <strong>Purpose:</strong>
+  <strong>目的:</strong>
   <%= @thema.purpose %>
 </p>
 
-<%= link_to 'Edit', edit_thema_path(@thema) %> |
+<% unless @thema.lock%>
+  <%= link_to 'テーマ・質問編集画面', edit_thema_path(@thema)%> |
+  <%= link_to '回答URL確認画面', confirm_thema_path(@thema)%> |
+  <s>回答一覧</s> |
+  <s>KJ法実施</s> |
+<% else %>
+  <s>テーマ・質問編集画面</s> |
+  <%= link_to '回答URL確認画面', confirm_thema_path(@thema)%> |
+  <%= link_to '回答一覧', answers_path(@thema) %> |
+  <% if Place.find_by(thema_id: @thema.id)%>
+    <%= link_to 'KJ法実施', edit_place_path(@thema.places.first) %> |
+    <%= link_to 'KJ法結果', place_path(@thema.places.first) %>
+  <% else %>
+    <%= link_to 'KJ法実施', new_place_path(@thema) %> |
+  <% end %>
+<% end %>
 <%= link_to 'Back', themas_path %>

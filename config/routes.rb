@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  
+  resources :large_groups do
+    member do
+      patch 'move'
+    end
+  end
+
+  resources :small_groups do
+    member do
+      patch 'move'
+    end
+  end
+
+  resources :cards do
+    member do
+      patch 'move'
+    end
+  end
+
   resources :themas do
     member do
       get 'confirm'
