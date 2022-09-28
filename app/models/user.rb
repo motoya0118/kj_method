@@ -6,6 +6,7 @@ class User < ApplicationRecord
   
   has_many :user_answers, dependent: :destroy
   has_many :places
+  has_many :themas, dependent: :destroy
   
 
   def self.create_unique_string

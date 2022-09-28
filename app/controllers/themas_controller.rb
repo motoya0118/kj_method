@@ -26,6 +26,7 @@ class ThemasController < ApplicationController
   # POST /themas or /themas.json
   def create
     @thema = Thema.new(thema_params)
+    @thema.user_id = current_user.id
 
     respond_to do |format|
       if @thema.save

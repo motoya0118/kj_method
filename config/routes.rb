@@ -18,8 +18,11 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'tops#top'
+  root to: 'tops#mypage'
   get 'login' , to: 'tops#login'
+  get 'mypage' , to: 'tops#mypage'
+  get 'top' , to: 'tops#top'
+  get 'confirm' , to: 'tops#confirm'
   resources :themas do
     member do
       get 'confirm'
