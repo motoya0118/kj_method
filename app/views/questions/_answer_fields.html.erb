@@ -1,4 +1,5 @@
 <div class="nested-fields">
   <%= f.label :answer, value="回答" %>
   <%= f.text_field :answer %>
+  <%= f.hidden_field :user_id, :value => current_user.id%>
 </div>

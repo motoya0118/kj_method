@@ -29,10 +29,12 @@
   </div>
 
   <%= form.fields_for :answers do | answer | %>
-    <% if controller.controller_name == "questions"%>
-      <%= render "questions/answer_fields", f: answer %>
-    <% else %>
-      <%= render "answers/answer_fields", f: answer %>
+    <% if answer.object.user_id == current_user.id || answer.object.user_id.nil? %>
+      <% if controller.controller_name == "questions"%>
+        <%= render "questions/answer_fields", f: answer %>
+      <% else %>
+        <%= render "answers/answer_fields", f: answer %>
+      <% end %>
     <% end %>
   <% end %>
   <div class="actions">

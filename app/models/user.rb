@@ -4,9 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,:omniauthable, omniauth_providers: %i(twitter)
   
-  has_many :user_answers, dependent: :destroy
   has_many :places
   has_many :themas, dependent: :destroy
+  has_many :answers, dependent: :destroy
   
 
   def self.create_unique_string
