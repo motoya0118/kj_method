@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'tops#mypage'
+  root to: 'tops#top'
   get 'login' , to: 'tops#login'
   get 'mypage' , to: 'tops#mypage'
   get 'top' , to: 'tops#top'
