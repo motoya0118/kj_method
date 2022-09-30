@@ -1,8 +1,73 @@
 require 'rails_helper'
 RSpec.describe '質問・回答機能', type: :system do
   describe '質問・回答機能' do
+    context 'thema遷移確認(session無し)' do
+      it 'thema_newに遷移不可' do
+        visit new_thema_path
+        expect(current_url).to have_content login_path
+      end
+    end
+    context 'thema遷移確認(作成者以外)' do
+      before do
+        FactoryBot.create(:user)
+        FactoryBot.create(:question)
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        visit login_path
+        click_on 'Twitterでサインアップしてね'
+      end
+      it 'themaメインページに遷移不可' do
+        visit thema_path(Thema.last.id)
+        expect(current_url).to have_content mypage_path
+      end
+      it 'thema編集に遷移不可' do
+        visit edit_thema_path(Thema.last.id)
+        expect(current_url).to have_content mypage_path
+      end
+      it '回答URL発行に遷移不可' do
+        visit confirm_thema_path(Thema.last.id)
+        expect(current_url).to have_content mypage_path
+      end
+      it '回答一覧に遷移不可' do
+        thema = Thema.last
+        thema.update(lock: true)
+        visit answers_path(Thema.last.id)
+        expect(current_url).to have_content mypage_path
+      end
+    end
+    context 'thema遷移確認(作成者)' do
+      before do
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        visit login_path
+        click_on 'Twitterでサインアップしてね'
+        FactoryBot.create(:question)
+      end
+      it 'themaメインページに遷移可' do
+        visit thema_path(Thema.last.id)
+        expect(current_url).to have_content thema_path(Thema.last.id)
+      end
+      it 'thema編集に遷移可' do
+        visit edit_thema_path(Thema.last.id)
+        expect(current_url).to have_content edit_thema_path(Thema.last.id)
+      end
+      it '回答URL発行に遷移可' do
+        visit confirm_thema_path(Thema.last.id)
+        expect(current_url).to have_content confirm_thema_path(Thema.last.id)
+      end
+      it '回答一覧に遷移可' do
+        thema = Thema.last
+        thema.update(lock: true)
+        visit answers_path(Thema.last.id)
+        expect(current_url).to have_content answers_path(Thema.last.id)
+      end
+    end
     context '質問を新規作成した場合' do
-      before do 
+      before do
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        visit login_path
+        click_on 'Twitterでサインアップしてね'
         visit new_thema_path
       end
       it '質問が1つ登録でき質問が表示される' do
@@ -26,6 +91,10 @@ RSpec.describe '質問・回答機能', type: :system do
     end
     context '質問を編集した場合' do
       before do
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        visit login_path
+        click_on 'Twitterでサインアップしてね'
         FactoryBot.create(:question)
         thema_id = Thema.last.id
         visit edit_thema_path(thema_id)
@@ -47,8 +116,33 @@ RSpec.describe '質問・回答機能', type: :system do
         expect(Question.all.length).to eq 2
       end
     end
-    context '回答ページ' do
+    context '回答ページ(session無し)' do
       before do
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        FactoryBot.create(:user)
+        FactoryBot.create(:question)
+      end
+      it 'sessionがない場合、アクセス不可(ログインページへ遷移)' do
+        thema = Thema.last
+        thema.update(lock: true)
+        visit new_answer_path(thema.id)
+        expect(current_url).to have_content login_path
+      end
+      it 'sessionなしでアクセス=>ログイン=>回答ページに遷移する' do
+        thema = Thema.last
+        thema.update(lock: true)
+        visit new_answer_path(thema.id)
+        click_on 'Twitterでサインアップしてね'
+        expect(current_url).to have_content "/answers/new"
+      end
+    end
+    context '回答ページ(session有)' do
+      before do
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        visit login_path
+        click_on 'Twitterでサインアップしてね'
         FactoryBot.create(:question)
       end
       it 'thema_lockがfalseの場合,thema・questionの情報が編集不可になる' do
@@ -73,6 +167,14 @@ RSpec.describe '質問・回答機能', type: :system do
         click_on '送信'
         expect(Answer.last.answer).to eq 'answer1'
       end
+      it '回答ページで1つの質問に1つの回答した時、sessionを持つuser_idがDB上に登録される' do
+        thema = Thema.last
+        thema.update(lock: true)
+        visit new_answer_path(thema.id)
+        all('.nested-fields input')[0].set('answer1')
+        click_on '送信'
+        expect(Answer.last.user_id).to eq User.find_by(name: 'hoge').id
+      end
       it '回答ページで3つの質問に、回答欄を2つ追加して2つ回答できる' do
         thema = Thema.last
         thema.update(lock: true)
@@ -93,6 +195,10 @@ RSpec.describe '質問・回答機能', type: :system do
     end
     context '回答一覧' do
       before do
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        visit login_path
+        click_on 'Twitterでサインアップしてね'
         FactoryBot.create(:question_lock_true)
         FactoryBot.create(:question_only, thema_id: Thema.last.id)
         FactoryBot.create(:question_only, thema_id: Thema.last.id)
@@ -111,6 +217,10 @@ RSpec.describe '質問・回答機能', type: :system do
     end
     context '回答用URL確認画面' do
       before do
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        visit login_path
+        click_on 'Twitterでサインアップしてね'
         FactoryBot.create(:question)
         FactoryBot.create(:question_only, thema_id: Thema.last.id, question: 'question2')
         FactoryBot.create(:question_only, thema_id: Thema.last.id, question: 'question3')
@@ -137,6 +247,10 @@ RSpec.describe '質問・回答機能', type: :system do
   end
   describe 'themaメインページ' do
     before do
+      Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+      Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+      visit login_path
+      click_on 'Twitterでサインアップしてね'
       FactoryBot.create(:question_lock_false)
       FactoryBot.create(:question_only, thema_id: Thema.last.id)
       FactoryBot.create(:question_only, thema_id: Thema.last.id)

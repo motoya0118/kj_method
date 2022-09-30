@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :place do
-    public { false }
-    thema { nil }
+    leader { false }
+    association :large_group
   end
 end

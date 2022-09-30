@@ -1,7 +1,30 @@
 require 'rails_helper'
-RSpec.describe 'ユーザー機能・制限', type: :system do
-  describe 'KJ法実施機能' do
-    it '' do
+RSpec.describe 'ユーザーページ', type: :system do
+  describe '未ログイン状態' do
+    it 'mypageに遷移不可(ログインページに遷移)' do
+      visit mypage_path
+      expect(current_url).to have_content login_path
+    end
+    it '削除確認ページに遷移不可(ログインページに遷移)' do
+      visit confirm_path
+      expect(current_url).to have_content login_path
+    end
+    #mypage,confirmはcurrent_user専用に設計しているため他のユーザーが特定のユーザーを閲覧・削除することは不可能
+  end
+  describe 'ログイン状態' do
+    before do
+      Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+      Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+      visit login_path
+      click_on 'Twitterでサインアップしてね'
+    end
+    it 'mypageに遷移できる' do
+      visit mypage_path
+      expect(current_url).to have_content mypage_path
+    end
+    it '削除確認ページに遷移不可(ログインページに遷移)' do
+      visit confirm_path
+      expect(current_url).to have_content confirm_path
     end
   end
 end

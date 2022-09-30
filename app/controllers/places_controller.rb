@@ -1,17 +1,23 @@
 class PlacesController < ApplicationController
   before_action :set_thema, only: %i[ show edit update destroy ]
-
+  # new,createのparams[:id]はthemaのためexcept
+  before_action ->{ make_user!(Place.find(params[:id]).thema_id) }, except:[:new,:create,:show]
   # GET /themas or /themas.json
-  def index
-    @places = Place.all
-  end
+  # def index
+  #   @places = Place.all
+  # end
 
   # GET /themas/1 or /themas/1.json
   def show
+    place = Place.find(params[:id])
+    unless place.public
+      make_user!(place.thema_id)
+    end
   end
 
   # GET /themas/new
   def new
+    make_user!(params[:id])
     @place = Place.new
     @thema = Thema.find(params[:id])
     @answer_ids = @thema.answer_user_ids
@@ -23,6 +29,7 @@ class PlacesController < ApplicationController
 
   # POST /themas or /themas.json
   def create
+    make_user!(params[:id])
     user_ids = params[:place].keys.map!(&:to_i)
     @thema = Thema.find(params[:id])
     @place = Place.create!(thema_id:@thema.id,user_id: current_user.id)

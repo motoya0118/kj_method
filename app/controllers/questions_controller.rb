@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-
+  before_action :authenticate_user!
   def new
     @thema = Thema.find(params[:id])
     unless @thema.lock

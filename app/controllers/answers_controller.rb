@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except:[:index]
+  before_action ->{ make_user!(params[:id]) }, only:[:index]
   def index
     @thema = Thema.find(params[:id])
   end
