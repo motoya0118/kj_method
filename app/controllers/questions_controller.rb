@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-
+  before_action :authenticate_user!
   def new
     @thema = Thema.find(params[:id])
     unless @thema.lock
@@ -30,6 +30,6 @@ class QuestionsController < ApplicationController
   end
   private
   def question_params
-    params.require(:question).permit(:id, answers_attributes:[:id,:answer])
+    params.require(:question).permit(:id, answers_attributes:[:id,:answer,:user_id])
   end
 end

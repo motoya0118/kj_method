@@ -1,29 +1,16 @@
 Rails.application.routes.draw do
-  
-  resources :large_groups do
-    member do
-      patch 'move'
-    end
-  end
-
-  resources :small_groups do
-    member do
-      patch 'move'
-    end
-  end
-
-  resources :cards do
-    member do
-      patch 'move'
-    end
-  end
-
   root to: 'tops#mypage'
   get 'login' , to: 'tops#login'
   get 'mypage' , to: 'tops#mypage'
   get 'top' , to: 'tops#top'
   get 'confirm' , to: 'tops#confirm'
-  resources :themas do
+
+  devise_for :users, controllers: {
+    registrations: "users/registrations",
+    omniauth_callbacks: "users/omniauth_callbacks"
+}
+
+  resources :themas, except:[:index] do
     member do
       get 'confirm'
       get 'lock'
@@ -31,13 +18,26 @@ Rails.application.routes.draw do
         get 'make_session'
       end
       resources :questions, only:[:update,:new]
-      resources :places
+      resources :places, except:[:index]
     end
   end
 
-  devise_for :users, controllers: {
-    registrations: "users/registrations",
-    omniauth_callbacks: "users/omniauth_callbacks"
-}
+resources :large_groups, only:[:destroy, :update, :create] do
+  member do
+    patch 'move'
+  end
+end
+
+resources :small_groups, only:[:destroy, :update, :create] do
+  member do
+    patch 'move'
+  end
+end
+
+resources :cards, only:[:destroy, :update, :create] do
+  member do
+    patch 'move'
+  end
+end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

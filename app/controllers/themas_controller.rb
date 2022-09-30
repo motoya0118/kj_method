@@ -1,10 +1,11 @@
 class ThemasController < ApplicationController
   before_action :set_thema, only: %i[ show edit update destroy confirm lock]
-
+  before_action :authenticate_user!, only:[:new,:create]
+  before_action ->{ make_user!(params[:id]) }, except:[:new,:create]
   # GET /themas or /themas.json
-  def index
-    @themas = Thema.all
-  end
+  # def index
+  #   @themas = Thema.all
+  # end
 
   # GET /themas/1 or /themas/1.json
   def show

@@ -10,7 +10,11 @@
       </ul>
     </div>
   <% end %>
-
+  <% @answer_ids.each do |id|%>
+    <% user = User.find(id) %>
+    <%= form.label :user, value="#{user.name}(@#{user.nickname})" %>
+    <%= form.check_box id,{checked: true, id: "#{user.name}(@#{user.nickname})"},true, false %>
+  <% end %>
   <div class="actions">
     <%= form.submit value='取込'%>
   </div>
