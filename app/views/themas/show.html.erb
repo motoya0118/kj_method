@@ -23,8 +23,27 @@
   <% if Place.find_by(thema_id: @thema.id)%>
     <%= link_to 'KJ法実施', edit_place_path(@thema.places.first) %> |
     <%= link_to 'KJ法結果', place_path(@thema.places.first) %>
+    <% result_url="http://localhost:3000#{place_path(@thema.places.first)}" %>
+    <% tweet_url="https://twitter.com/intent/tweet?text=#{@thema.name}のKJ法結果です!!!%0A#{result_url}%0A/&hashtags=デジタルKJ法" %>
+    <%= link_to tweet_url do %>
+      <i class="fab fa-twitter twitter"></i>
+    <% end %>
   <% else %>
     <%= link_to 'KJ法実施', new_place_path(@thema) %> |
   <% end %>
 <% end %>
-<%= link_to 'Back', themas_path %>
+
+<% if @thema.answer_user_ids %>
+  <ul>回答者
+  <% @thema.answer_user_ids.each do |id| %>
+    <% user=User.find(id) %>
+    <li class="answer_person">
+      <%= "#{user.name}(@#{user.nickname})" %>
+      <%= link_to "https://twitter.com/#{user.nickname}" do %>
+        <i class="fab fa-twitter twitter" id="twitter"></i>
+      <% end %>
+    </li>
+  <% end %>
+  </ul>
+<% end%>
+<%= link_to 'テーマを削除', thema_path(@thema), method: :delete %>

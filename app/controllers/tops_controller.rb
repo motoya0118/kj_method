@@ -8,4 +8,6 @@ class TopsController < ApplicationController
   end
   def confirm
   end
+  def about
+  end
 end

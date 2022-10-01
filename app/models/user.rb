@@ -28,4 +28,19 @@ class User < ApplicationRecord
     user.save
     user
   end
+  def self.guest
+    find_or_create_by!(email: 'guest@example.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.name = 'hoge'
+      user.nickname = 'fuga'
+    end
+  end
+  def self.admin_user
+    find_or_create_by!(email: 'admin@example.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.name = 'taro'
+      user.nickname = 'admin'
+      user.admin = true
+    end
+  end
 end

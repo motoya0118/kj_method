@@ -34,6 +34,12 @@ RSpec.describe '質問・回答機能', type: :system do
         visit answers_path(Thema.last.id)
         expect(current_url).to have_content mypage_path
       end
+      it 'テーマを削除不可' do
+        thema = Thema.last
+        thema.update(lock: true)
+        delete thema_path(Thema.last.id)
+        expect(Thema.all.length).to eq 1
+      end
     end
     context 'thema遷移確認(作成者)' do
       before do
@@ -60,6 +66,13 @@ RSpec.describe '質問・回答機能', type: :system do
         thema.update(lock: true)
         visit answers_path(Thema.last.id)
         expect(current_url).to have_content answers_path(Thema.last.id)
+      end
+      it 'themaを削除可能' do
+        thema = Thema.last
+        thema.update(lock: true)
+        visit thema_path(Thema.last.id)
+        click_on 'テーマを削除'
+        expect(Thema.all.length).to eq 0
       end
     end
     context '質問を新規作成した場合' do
@@ -211,8 +224,22 @@ RSpec.describe '質問・回答機能', type: :system do
         visit answers_path(Thema.last.id)
         tables = all('table')
         expect(tables[0]).to have_content "Answer_No_1"
+        expect(tables[0]).to have_content "hoge(@fuga)"
         expect(tables[1]).to have_content "Answer_No_2"
+        expect(tables[1]).to have_content "hoge(@fuga)"
         expect(tables[2]).to have_content "Answer_No_3"
+        expect(tables[2]).to have_content "hoge(@fuga)"
+      end
+      it '2人のユーザーが回答した場合、正しく表示される' do
+        FactoryBot.create(:answer, question_id: Question.first.id)
+        FactoryBot.create(:user)
+        FactoryBot.create(:answer, question_id: Question.first.id, answer: 'motoya_answer')
+        visit answers_path(Thema.last.id)
+        trs = all('tr')
+        expect(trs[1]).to have_content "hoge(@fuga)"
+        expect(trs[1]).to have_content "Answer_No_1"
+        expect(trs[2]).to have_content "motoya(@puchanpig)"
+        expect(trs[2]).to have_content "motoya_answer"
       end
     end
     context '回答用URL確認画面' do
@@ -324,6 +351,13 @@ RSpec.describe '質問・回答機能', type: :system do
       end
       it '(テーマ・質問編集画面)へリンクが存在しない' do
         expect{click_on 'テーマ・質問編集画面'}.to raise_error
+      end
+      it '回答者名が表示されている' do
+        expect(find('.answer_person')).to have_content 'hoge(@fuga)'
+      end
+      it '回答者twitterへのリンク先が正しい' do
+        find('#twitter').click
+        expect(current_url).to have_content '/fuga'
       end
     end
   end

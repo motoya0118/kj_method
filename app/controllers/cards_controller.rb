@@ -2,8 +2,6 @@ class CardsController < ApplicationController
   def move
     @card = Card.find(params[:id])
     @card.update(card_params)
-    # @card.insert_at(card_params[:position].to_i)
-    # render template: "kanbans/show"
   end
   def destroy
     @card = Card.find(params[:id])

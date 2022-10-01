@@ -12,20 +12,17 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      @ids = params[:question].delete(:ids).split(' ')
-      @question = Question.find(question_params[:id])
-      if @question.update(question_params)
-        if @ids.length == 0
-          format.html { redirect_to thema_path(@question.thema.id), notice: "question was successfully updated." }
-          format.json { render :show, status: :ok, location: @question }
-        else
-          format.html { redirect_to new_question_path(id:@question.thema.id, ids:@ids), notice: "question was successfully updated." }
-        end
+    @ids = params[:question].delete(:ids).split(' ')
+    @question = Question.find(question_params[:id])
+    if @question.update(question_params)
+      if @ids.length == 0
+        session['url'] = nil
+        redirect_to thema_path(@question.thema.id), notice: "question was successfully updated."
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @question.errors, status: :unprocessable_entity }
+        redirect_to new_question_path(id:@question.thema.id, ids:@ids), notice: "question was successfully updated."
       end
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
   private

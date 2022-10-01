@@ -12,7 +12,12 @@
   <h2>回答用URL発行済</h2><br>
   <div>
     <span>回答用URL</span>
-    <%= link_to "http://localhost:3000#{new_answer_path(@thema.id)}", new_answer_path(@thema.id)%>
+    <% answer_url="http://localhost:3000#{new_answer_path(@thema.id)}" %>
+    <%= link_to answer_url, new_answer_path(@thema.id)%>
+    <% tweet_url="https://twitter.com/intent/tweet?text=#{@thema.name}を解決するため下記の質問へ回答ご協力お願い致します!!!%0A#{answer_url}%0A/&hashtags=デジタルKJ法" %>
+    <%= link_to tweet_url do %>
+      <i class="fab fa-twitter twitter"></i>
+     <% end %>
   </div>
 
 <% end %>

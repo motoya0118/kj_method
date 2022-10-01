@@ -4,6 +4,8 @@
   <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 <% else %>
   <%= link_to 'Twitterでサインアップしてね', user_twitter_omniauth_authorize_path, method: :post %>
+  <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post %>
+  <%= link_to 'Adminログイン', users_admin_sign_in_path, method: :post %>
 <% end %>
 <br>
 <%# <%= link_to 'make_session', answer_make_session_path(7), method: :get  %>

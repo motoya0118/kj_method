@@ -10,13 +10,23 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"> <!-- 追加 -->
   </head>
 
   <body>
     <nav class="navbar navbar-light bg-primary justify-content-start mb-2">
+      <%= link_to "Top", top_path, class: "nav-link text-white border p-1"%>
+      <%= link_to "使い方", about_path, class: "nav-link text-white border p-1"%>
       <% if user_signed_in? %>
-        <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-link text-white border p-1"%>
+        <%= link_to "マイページ", mypage_path, class: "nav-link text-white border p-1"%>
         <%= link_to "テーマ作成", new_thema_path, class: "nav-link text-white border p-1"%>
+        <% if current_user.admin %>
+          <%= link_to "Admin", '/admin', class: "nav-link text-white border p-1"%>
+        <% end %>
+        <% if session['thema'] %>
+          <%= link_to "テーマに戻る", thema_path(session['thema']), class: "nav-link text-white border p-1"%>
+        <% end %>
+        <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-link text-white border p-1"%>
       <% else %>
         <%= link_to "Sign up", login_path ,class: "nav-link border-right text-white border p-1"%>
         <%= link_to "Login", login_path ,class: "nav-link text-white border p-1"%>
