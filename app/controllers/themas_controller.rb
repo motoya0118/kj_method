@@ -41,6 +41,7 @@ class ThemasController < ApplicationController
 
   def destroy
     @thema.destroy
+    session['thema'] = nil
     redirect_to mypage_path, notice: "Thema was successfully destroyed."
   end
 

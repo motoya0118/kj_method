@@ -22,9 +22,13 @@ RSpec.describe 'ユーザーページ', type: :system do
       visit mypage_path
       expect(current_url).to have_content mypage_path
     end
-    it '削除確認ページに遷移不可(ログインページに遷移)' do
+    it '削除確認ページに遷移可で、ユーザーを削除できる' do
       visit confirm_path
+      expect(User.all.length).to eq 1
       expect(current_url).to have_content confirm_path
+      click_on 'YES'
+      expect(User.all.length).to eq 0
     end
+    
   end
 end

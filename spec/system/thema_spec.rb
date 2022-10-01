@@ -34,6 +34,12 @@ RSpec.describe '質問・回答機能', type: :system do
         visit answers_path(Thema.last.id)
         expect(current_url).to have_content mypage_path
       end
+      it 'テーマを削除不可' do
+        thema = Thema.last
+        thema.update(lock: true)
+        delete thema_path(Thema.last.id)
+        expect(Thema.all.length).to eq 1
+      end
     end
     context 'thema遷移確認(作成者)' do
       before do
@@ -60,6 +66,13 @@ RSpec.describe '質問・回答機能', type: :system do
         thema.update(lock: true)
         visit answers_path(Thema.last.id)
         expect(current_url).to have_content answers_path(Thema.last.id)
+      end
+      it 'themaを削除可能' do
+        thema = Thema.last
+        thema.update(lock: true)
+        visit thema_path(Thema.last.id)
+        click_on 'テーマを削除'
+        expect(Thema.all.length).to eq 0
       end
     end
     context '質問を新規作成した場合' do
