@@ -224,8 +224,22 @@ RSpec.describe '質問・回答機能', type: :system do
         visit answers_path(Thema.last.id)
         tables = all('table')
         expect(tables[0]).to have_content "Answer_No_1"
+        expect(tables[0]).to have_content "hoge(@fuga)"
         expect(tables[1]).to have_content "Answer_No_2"
+        expect(tables[1]).to have_content "hoge(@fuga)"
         expect(tables[2]).to have_content "Answer_No_3"
+        expect(tables[2]).to have_content "hoge(@fuga)"
+      end
+      it '2人のユーザーが回答した場合、正しく表示される' do
+        FactoryBot.create(:answer, question_id: Question.first.id)
+        FactoryBot.create(:user)
+        FactoryBot.create(:answer, question_id: Question.first.id, answer: 'motoya_answer')
+        visit answers_path(Thema.last.id)
+        trs = all('tr')
+        expect(trs[1]).to have_content "hoge(@fuga)"
+        expect(trs[1]).to have_content "Answer_No_1"
+        expect(trs[2]).to have_content "motoya(@puchanpig)"
+        expect(trs[2]).to have_content "motoya_answer"
       end
     end
     context '回答用URL確認画面' do

@@ -1,3 +1,9 @@
+<%# N+1問題対策 %>
+<% users={}%>
+<% @thema.answer_user_ids.each do |id| %>
+  <% users[id]=User.find(id) %>
+<% end %>
+
 <h1>回答一覧</h1>
 
 <% @thema.questions.each.with_index(1) do |question,index|%>
@@ -10,8 +16,9 @@
       <th>回答内容</th>
     </tr>
     <% question.answers.each do |answer| %>
+      <% user=users[answer.user_id]%>
       <tr>
-        <td>後で追加</td>
+        <td><%= "#{user.name}(@#{user.nickname})" %></td>
         <td><%= answer.answer %></td>
       </tr>
     <% end %>
