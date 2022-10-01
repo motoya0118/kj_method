@@ -1,27 +1,22 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except:[:index]
   before_action ->{ make_user!(params[:id]) }, only:[:index]
   def index
     @thema = Thema.find(params[:id])
   end
 
   def new
-    @thema = Thema.find(params[:id])
-    unless @thema.lock
-      redirect_to thema_path(@thema.id), notice: 'URL未発行のため表示できません'
-    else
-      @question_ids = Question.where(thema_id: @thema.id).ids
-      @question = Question.find(@question_ids.delete_at(0))
-      @question.answers.build
-    end
-  end
-  
-  def make_session
-    unless current_user
+    unless user_signed_in?
       session['url'] = request.fullpath
-      redirect_to root_path
+      redirect_to login_path, notice: 'login/sing_inして下さい'
     else
-      session['url'] = nil
+      @thema = Thema.find(params[:id])
+      unless @thema.lock
+        redirect_to thema_path(@thema.id), notice: 'URL未発行のため表示できません'
+      else
+        @question_ids = Question.where(thema_id: @thema.id).ids
+        @question = Question.find(@question_ids.delete_at(0))
+        @question.answers.build
+      end
     end
   end
 

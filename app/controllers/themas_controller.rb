@@ -2,65 +2,46 @@ class ThemasController < ApplicationController
   before_action :set_thema, only: %i[ show edit update destroy confirm lock]
   before_action :authenticate_user!, only:[:new,:create]
   before_action ->{ make_user!(params[:id]) }, except:[:new,:create]
-  # GET /themas or /themas.json
-  # def index
-  #   @themas = Thema.all
-  # end
-
-  # GET /themas/1 or /themas/1.json
+  
   def show
+    session['thema'] = @thema.id
   end
 
-  # GET /themas/new
   def new
     @thema = Thema.new
     @questions = @thema.questions.build
   end
 
-  # GET /themas/1/edit
   def edit
     if @thema.lock
       redirect_to thema_path(@thema.id), notice: 'URL発行済のため編集不可です'
     end
   end
 
-  # POST /themas or /themas.json
   def create
     @thema = Thema.new(thema_params)
-    @thema.user_id = current_user.id
+    @thema.user_id = current_user.id  
 
-    respond_to do |format|
-      if @thema.save
-        format.html { redirect_to thema_url(@thema), notice: "Thema was successfully created." }
-        format.json { render :show, status: :created, location: @thema }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @thema.errors, status: :unprocessable_entity }
-      end
+    if @thema.save
+      session['thema'] = @thema.id
+      redirect_to thema_url(@thema), notice: "Thema was successfully created." 
+    else
+      render :new, status: :unprocessable_entity
     end
+    
   end
 
-  # PATCH/PUT /themas/1 or /themas/1.json
   def update
-    respond_to do |format|
-      if @thema.update(thema_params)
-        format.html { redirect_to thema_url(@thema), notice: "Thema was successfully updated." }
-        format.json { render :show, status: :ok, location: @thema }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @thema.errors, status: :unprocessable_entity }
-      end
+    if @thema.update(thema_params)
+      redirect_to thema_url(@thema), notice: "Thema was successfully updated." 
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /themas/1 or /themas/1.json
   def destroy
     @thema.destroy
-
-    respond_to do |format|
-      format.html { redirect_to themas_url, notice: "Thema was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to mypage_path, notice: "Thema was successfully destroyed."
   end
 
   def confirm
@@ -72,12 +53,10 @@ class ThemasController < ApplicationController
   end
   
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_thema
       @thema = Thema.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def thema_params
       params.require(:thema).permit(:name, :purpose, :lock,questions_attributes:[:id, :question,:_destroy])
     end

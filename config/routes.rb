@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'mypage' , to: 'tops#mypage'
   get 'top' , to: 'tops#top'
   get 'confirm' , to: 'tops#confirm'
+  get 'about' , to: 'tops#about'
 
   devise_for :users, controllers: {
     registrations: "users/registrations",

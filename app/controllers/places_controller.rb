@@ -2,12 +2,7 @@ class PlacesController < ApplicationController
   before_action :set_thema, only: %i[ show edit update destroy ]
   # new,createのparams[:id]はthemaのためexcept
   before_action ->{ make_user!(Place.find(params[:id]).thema_id) }, except:[:new,:create,:show]
-  # GET /themas or /themas.json
-  # def index
-  #   @places = Place.all
-  # end
-
-  # GET /themas/1 or /themas/1.json
+  
   def show
     place = Place.find(params[:id])
     unless place.public
@@ -15,7 +10,6 @@ class PlacesController < ApplicationController
     end
   end
 
-  # GET /themas/new
   def new
     make_user!(params[:id])
     @place = Place.new
@@ -23,11 +17,9 @@ class PlacesController < ApplicationController
     @answer_ids = @thema.answer_user_ids
   end
 
-  # GET /themas/1/edit
   def edit
   end
 
-  # POST /themas or /themas.json
   def create
     make_user!(params[:id])
     user_ids = params[:place].keys.map!(&:to_i)
@@ -65,36 +57,24 @@ class PlacesController < ApplicationController
     redirect_to edit_place_path(@place.id)
   end
 
-  # PATCH/PUT /themas/1 or /themas/1.json
   def update
-    respond_to do |format|
-      if @place.update(place_params)
-        format.html { redirect_to thema_url(@place), notice: "thema was successfully updated." }
-        format.json { }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @thema.errors, status: :unprocessable_entity }
-      end
+    if @place.update(place_params)
+      redirect_to thema_url(@place), notice: "thema was successfully updated." 
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /themas/1 or /themas/1.json
   def destroy
     @place.destroy
-
-    respond_to do |format|
-      format.html { redirect_to places_url, notice: "thema was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to mypage_path, notice: "thema was successfully destroyed."
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_thema
       @place = Place.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def place_params
       params.require(:place).permit(:public, :thema_id).merge(params[:place].keys)
     end
