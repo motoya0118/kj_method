@@ -52,6 +52,19 @@ RSpec.describe 'グローバルナナビゲーション', type: :system do
       nav_texts = nav_elemens.map { |element| element.text }
       expect(nav_texts).to match_array ["Top","使い方","Sign up","Login"]
     end
+  end
+  context 'ログイン状態,Admin' do
+    before do
+      Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+      Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+      visit login_path
+      click_on 'Twitterでサインアップしてね'
+    end
+    it 'Adminがfalseのとき遷移不可' do
+      Capybara.raise_server_errors = false
+      visit rails_admin_path
+      expect(page).to have_content 'CanCan::AccessDenied'
+    end
     it 'admin_trueのとき、Adminが追加される' do
       user = User.last
       user.update(admin: true)
@@ -60,6 +73,16 @@ RSpec.describe 'グローバルナナビゲーション', type: :system do
       nav_texts = nav_elemens.map { |element| element.text }
       expect(nav_texts).to match_array ["Top","使い方","マイページ","テーマ作成","Logout","Admin"]
     end
+    it 'admin_trueのとき、Adminに遷移可能' do
+      user = User.last
+      user.update(admin: true)
+      visit mypage_path
+      click_on 'Admin'
+      header = find('header')
+      expect(page).not_to have_content 'CanCan::AccessDenied'
+      expect(header).to have_content 'サイト管理'
+    end
+
   end
   context 'ログイン状態,かつテーマ1つ作成した直後' do
     before do

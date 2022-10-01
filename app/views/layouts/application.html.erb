@@ -21,7 +21,7 @@
         <%= link_to "マイページ", mypage_path, class: "nav-link text-white border p-1"%>
         <%= link_to "テーマ作成", new_thema_path, class: "nav-link text-white border p-1"%>
         <% if current_user.admin %>
-          <%= link_to "Admin", '/', class: "nav-link text-white border p-1"%>
+          <%= link_to "Admin", '/admin', class: "nav-link text-white border p-1"%>
         <% end %>
         <% if session['thema'] %>
           <%= link_to "テーマに戻る", thema_path(session['thema']), class: "nav-link text-white border p-1"%>
