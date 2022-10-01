@@ -338,6 +338,13 @@ RSpec.describe '質問・回答機能', type: :system do
       it '(テーマ・質問編集画面)へリンクが存在しない' do
         expect{click_on 'テーマ・質問編集画面'}.to raise_error
       end
+      it '回答者名が表示されている' do
+        expect(find('.answer_person')).to have_content 'hoge(@fuga)'
+      end
+      it '回答者twitterへのリンク先が正しい' do
+        find('#twitter').click
+        expect(current_url).to have_content '/fuga'
+      end
     end
   end
 end
