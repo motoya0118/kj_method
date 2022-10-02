@@ -1,10 +1,16 @@
 <%# N+1問題対策 %>
 <% users={}%>
+<% users_search={"全件"=>nil}%>
 <% @thema.answer_user_ids.each do |id| %>
   <% users[id]=User.find(id) %>
+  <% users_search["#{users[id].name}(@#{users[id].nickname})"]=id%>
 <% end %>
-
 <h1>回答一覧</h1>
+
+<%= form_tag("#{@thema}/answers",method: 'get') do %>
+  <%= select_tag("user_id",options_for_select(users_search))%>
+  <%= submit_tag('検索')%>
+<% end %>
 
 <% @thema.questions.each.with_index(1) do |question,index|%>
   <h2><%= "質問#{index}"%></h2>
@@ -16,11 +22,21 @@
       <th>回答内容</th>
     </tr>
     <% question.answers.each do |answer| %>
-      <% user=users[answer.user_id]%>
-      <tr>
-        <td><%= "#{user.name}(@#{user.nickname})" %></td>
-        <td><%= answer.answer %></td>
-      </tr>
+      <% if @user_id %>
+        <% if answer.user_id == @user_id %>
+          <% user=users[answer.user_id]%>
+          <tr>
+            <td><%= "#{user.name}(@#{user.nickname})" %></td>
+            <td><%= answer.answer %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <% user=users[answer.user_id]%>
+          <tr>
+            <td><%= "#{user.name}(@#{user.nickname})" %></td>
+            <td><%= answer.answer %></td>
+          </tr>
+      <% end %>
     <% end %>
   </table>
 <% end %>
