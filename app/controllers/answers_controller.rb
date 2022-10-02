@@ -1,7 +1,13 @@
 class AnswersController < ApplicationController
   before_action ->{ make_user!(params[:id]) }, only:[:index]
   def index
-    @thema = Thema.find(params[:id])
+    unless params[:user_id].nil? || params[:user_id].length == 0
+      @thema = Thema.find(params[:id])
+      @user_id = params[:user_id].to_i
+    else
+      @thema = Thema.find(params[:id])
+      @user_id = nil
+    end
   end
 
   def new

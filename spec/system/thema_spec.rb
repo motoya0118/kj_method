@@ -206,7 +206,7 @@ RSpec.describe '質問・回答機能', type: :system do
         expect(Question.last.answers.length).to eq 2
       end
     end
-    context '回答一覧' do
+    context '回答一覧_1人回答' do
       before do
         Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
         Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
@@ -230,16 +230,47 @@ RSpec.describe '質問・回答機能', type: :system do
         expect(tables[2]).to have_content "Answer_No_3"
         expect(tables[2]).to have_content "hoge(@fuga)"
       end
-      it '2人のユーザーが回答した場合、正しく表示される' do
+    end
+    context '回答一覧_2人回答' do
+      before do
+        Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
+        Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        visit login_path
+        click_on 'Twitterでサインアップしてね'
+        FactoryBot.create(:question_lock_true)
+        FactoryBot.create(:question_only, thema_id: Thema.last.id)
+        FactoryBot.create(:question_only, thema_id: Thema.last.id)
         FactoryBot.create(:answer, question_id: Question.first.id)
         FactoryBot.create(:user)
         FactoryBot.create(:answer, question_id: Question.first.id, answer: 'motoya_answer')
+      end
+      it '正しく表示される' do
         visit answers_path(Thema.last.id)
         trs = all('tr')
         expect(trs[1]).to have_content "hoge(@fuga)"
         expect(trs[1]).to have_content "Answer_No_1"
         expect(trs[2]).to have_content "motoya(@puchanpig)"
         expect(trs[2]).to have_content "motoya_answer"
+      end
+      it 'テーマ一覧から回答ユーザーを選択すると回答ユーザーの回答のみ表示される' do
+        visit thema_path(Thema.last.id)
+        click_on "hoge(@fuga)"
+        tables = all('table')
+        expect(tables[0]).to have_content "hoge(@fuga)"
+        expect(tables[0]).to have_no_content "motoya(@puchanpig)"
+      end
+      it '一覧で検索すると全件が、ユーザーを選択すると選択したユーザーのみ検索可能' do
+        visit answers_path(Thema.last.id)
+        select "hoge(@fuga)"
+        click_on "検索"
+        tables = all('table')
+        expect(tables[0]).to have_content "hoge(@fuga)"
+        expect(tables[0]).to have_no_content "motoya(@puchanpig)"
+        select "全件"
+        click_on "検索"
+        tables = all('table')
+        expect(tables[0]).to have_content "hoge(@fuga)"
+        expect(tables[0]).to have_content "motoya(@puchanpig)"
       end
     end
     context '回答用URL確認画面' do

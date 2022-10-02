@@ -38,7 +38,7 @@
   <% @thema.answer_user_ids.each do |id| %>
     <% user=User.find(id) %>
     <li class="answer_person">
-      <%= "#{user.name}(@#{user.nickname})" %>
+      <%= link_to "#{user.name}(@#{user.nickname})", answers_path(@thema,user_id:user.id) %>
       <%= link_to "https://twitter.com/#{user.nickname}" do %>
         <i class="fab fa-twitter twitter" id="twitter"></i>
       <% end %>
