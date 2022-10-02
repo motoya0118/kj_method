@@ -9,13 +9,13 @@
           <div v-if="!card.edit" v-for="(card, index) in small.cards" class="card card-body" @click.stop="oneClickCard(card)">
             {{ card.content }}
           </div>
-          <input v-else type="text" class="form-control" v-model="card.content" v-on:blur="cardBlur(card)" v-focus></input>
+          <input v-else type="text" maxlength="30" class="form-control" v-model="card.content" v-on:blur="cardBlur(card)" v-focus></input>
         </draggable>
       </div>
-      <input v-else type="text" class="form-control" v-model="small.name" v-on:blur="smallBlur(small)" v-focus></input>
+      <input v-else type="text" maxlength="30" class="form-control" v-model="small.name" v-on:blur="smallBlur(small)" v-focus></input>
     </draggable>
   </div>
-  <input v-else type="text" class="form-control" v-model="list.name" v-on:blur="listBlur(list)" v-focus></input>
+  <input v-else type="text" maxlength="30" class="form-control" v-model="list.name" v-on:blur="listBlur(list)" v-focus></input>
 </template>
 
 <script>
