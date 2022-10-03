@@ -1,14 +1,14 @@
-<h1>マイページ</h1>
+<h2 class="text-white ps-5 pt-2"><%= "#{current_user.name}(@#{current_user.nickname})さんのページ"%></h2>
+<%= button_to 'ユーザー削除する',confirm_path ,class: 'ms-5'%>
 
-<p><%= "#{current_user.name}(@#{current_user.nickname})さんのページ"%></p>
-<%= link_to 'ユーザー削除する',confirm_path%>
-
-<ul>作成済のテーマ
+<div class="w-100">
+<ul class="border border-white w-75 mx-auto mt-3 p-3 text-primary h3 text-warning list-unstyled text-center bg-dark">作成済のテーマ
   <% unless current_user.themas.length == 0 %>
   <% current_user.themas.each do |thema| %>
-    <li><%= link_to "#{thema.name}",  thema_path(thema) %></li>
+    <li><%= link_to "#{thema.name}",  thema_path(thema) ,class: "text-white"%></li>
   <% end %>
   <% else %>
   <li>未作成</li>
   <% end %>
 </ul>
+</div>
