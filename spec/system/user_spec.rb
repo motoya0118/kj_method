@@ -16,7 +16,7 @@ RSpec.describe 'ユーザーページ', type: :system do
       Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
       Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
       visit login_path
-      click_on 'Twitterでサインアップしてね'
+      find('.twitter_login').click
     end
     it 'mypageに遷移できる' do
       visit mypage_path
