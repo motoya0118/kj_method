@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <nav class="navbar position-fixed navbar-light bg-dark justify-content-start mb-2 w-100">
+    <nav class="navbar position-sticky navbar-light bg-dark justify-content-start mb-2 w-100 top-0 start-0">
       <%= link_to "Top", top_path, class: "nav-link text-white border p-1"%>
       <%= link_to "使い方", about_path, class: "nav-link text-white border p-1"%>
       <% if user_signed_in? %>
@@ -33,4 +33,15 @@
     </nav>
     <%= yield %>
   </body>
+  <footer class="footer bg-dark position-sticky w-100 bottom-0 start-0">
+    <p class="text-white float-start p-2">作成者: motoya</p>
+    <%= link_to "https://twitter.com/puchan_pig" do %>
+      <i class="fab fa-twitter twitter p-2"></i>
+    <% end %>
+    <%= link_to "https://github.com/motoya0118" do %>
+      <i class="fab fa-github p-2"></i>
+    <% end %>
+    <%= link_to "Qiita" ,"https://qiita.com/motoya0118 ",class: 'p-2'%>
+    <%= link_to "portfolio" ,"https://motoya-portfolio.com/" ,class: 'p-2'%>
+  </footer>
 </html>
