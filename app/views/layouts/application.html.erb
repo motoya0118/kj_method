@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <!-- CSS only -->
@@ -14,7 +13,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-light bg-primary justify-content-start mb-2">
+    <nav class="navbar position-fixed navbar-light bg-dark justify-content-start mb-2 w-100">
       <%= link_to "Top", top_path, class: "nav-link text-white border p-1"%>
       <%= link_to "使い方", about_path, class: "nav-link text-white border p-1"%>
       <% if user_signed_in? %>
