@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <nav class="navbar position-sticky navbar-light bg-dark justify-content-start mb-2 w-100 top-0 start-0">
+    <nav class="navbar position-fixed navbar-light bg-dark justify-content-start w-100 top-0 start-0">
       <%= link_to "Top", top_path, class: "nav-link text-white border p-1"%>
       <%= link_to "使い方", about_path, class: "nav-link text-white border p-1"%>
       <% if user_signed_in? %>
@@ -31,7 +31,9 @@
         <%= link_to "Login", login_path ,class: "nav-link text-white border p-1"%>
       <% end %>
     </nav>
-    <%= yield %>
+    <div class='<%= controller.controller_name %> pt-5'>
+      <%= yield %>
+    </div>
   </body>
   <footer class="footer bg-dark position-sticky w-100 bottom-0 start-0">
     <p class="text-white float-start p-2">作成者: motoya</p>
