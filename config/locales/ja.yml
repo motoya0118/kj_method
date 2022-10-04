@@ -1,7 +1,9 @@
 ---
 ja:
   activerecord:
-    errors:
+    attributes:
+      thema:
+        name: テーマ名
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
         restrict_dependent_destroy:

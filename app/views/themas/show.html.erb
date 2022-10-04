@@ -37,7 +37,7 @@
   </div>
 
   <div class="float-start text-center mt-3 row">
-    <% if @thema.answer_user_ids %>
+    <% unless @thema.answer_user_ids.length == 0 %>
       <ul class="list-unstyled border border-3 border-dark col-5 m-auto">
       <span class="h3 m-3 border-bottom bg-primary text-white border-3">回答済ユーザー</span>
       <% @thema.answer_user_ids.each do |id| %>
@@ -51,21 +51,23 @@
       <% end %>
       </ul>
     <% end%>
-    <div class="col-5 ms-auto me-auto border border-3 border-dark">
-      <div><span class="h3 bg-primary text-white">公開状態</span></div>
-      <% place=@thema.places[0]%>
-      <% if place.public %>
-        <div class="mt-1">
-          <%= link_to "現在公開中(非公開に変更)", place_path(place.id, :place=>{public:false}), method: 'patch' ,class: 'btn btn-warning mt-1'%>
-        </div>
-        <div class="btn btn-primary mt-2">
-          <%= link_to tweet_url do %>
-            <i class="fab fa-twitter twitter m-1" id="twitter"></i>
-            <span class="text-white">Twitterで公開する</span>
-          <% end %>
-        </div>
-      <% else %>
-        <%= link_to "現在非公開(公開に変更)", place_path(place.id, :place=>{public:true}), method: 'patch' ,class: 'btn btn-primary mt-1 text-white'%>
+    <% place=@thema.places[0]%>
+    <% if place %>
+      <div class="col-5 ms-auto me-auto border border-3 border-dark">
+        <div><span class="h3 bg-primary text-white">公開状態</span></div>
+        <% if place.public %>
+          <div class="mt-1">
+            <%= link_to "現在公開中(非公開に変更)", place_path(place.id, :place=>{public:false}), method: 'patch' ,class: 'btn btn-warning mt-1'%>
+          </div>
+          <div class="btn btn-primary mt-2">
+            <%= link_to tweet_url do %>
+              <i class="fab fa-twitter twitter m-1" id="twitter"></i>
+              <span class="text-white">Twitterで公開する</span>
+            <% end %>
+          </div>
+        <% else %>
+          <%= link_to "現在非公開(公開に変更)", place_path(place.id, :place=>{public:true}), method: 'patch' ,class: 'btn btn-primary mt-1 text-white'%>
+        <% end %>
       <% end %>
     </div>
   </div>
