@@ -76,6 +76,6 @@ class PlacesController < ApplicationController
     end
 
     def place_params
-      params.require(:place).permit(:public, :thema_id).merge(params[:place].keys)
+      params.require(:place).permit(:public, :thema_id, :id)
     end
 end
