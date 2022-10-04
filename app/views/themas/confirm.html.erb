@@ -1,41 +1,45 @@
 <h1>回答用URL確認</h1>
 <br>
 <% unless @thema.lock %>
-  <h2>【注意】
-    <br>回答用URLを発行すると
+  <h3 class="text-danger text-center">
+    【注意】回答用URLを発行すると
     <br>以下のテーマ名・目的・質問でテーマをロックします。
-  </h2>
+  </h3>
 
-  <%= link_to 'テーマ・質問編集', edit_thema_path(@thema.id)%>
-  <%= link_to '回答用URL発行', lock_thema_path(@thema.id)%>
+  <div class="w-100 text-center float-start">
+    <%= link_to 'テーマ・質問編集', edit_thema_path(@thema.id), class: 'btn btn-warning me-3'%>
+    <%= link_to '回答用URL発行', lock_thema_path(@thema.id), class: 'btn btn-danger ms-3'%>
+  </div>
 <% else %>
-  <h2>回答用URL発行済</h2><br>
-  <div>
-    <span>回答用URL</span>
+  <h2 class="text-danger text-center">回答用URL発行済</h2><br>
+  <div class="w-75 mx-auto text-center border border-dark border-2">
+    <span>回答用URL:</span>
     <% answer_url="http://localhost:3000#{new_answer_path(@thema.id)}" %>
-    <%= link_to answer_url, new_answer_path(@thema.id)%>
+    <%= link_to answer_url, new_answer_path(@thema.id) , class: 'd-block'%>
     <% tweet_url="https://twitter.com/intent/tweet?text=#{@thema.name}を解決するため下記の質問へ回答ご協力お願い致します!!!%0A#{answer_url}%0A/&hashtags=デジタルKJ法" %>
-    <%= link_to tweet_url do %>
-      <i class="fab fa-twitter twitter"></i>
+    <%= link_to tweet_url , class:'btn btn-primary mt-3 mb-2' do %>
+      <i class="fab fa-twitter twitter"></i>Twitterで周知する
      <% end %>
   </div>
 
 <% end %>
 
-<table>
-  <tr>
-    <td>テーマ名</td>
-    <td><%= @thema.name %></td>
-  </tr>
-  <tr>
-    <td>目的</td>
-    <td><%= @thema.purpose %></td>
-  </tr>
-  <% @thema.questions.each.with_index(1) do |question, index| %>
-    <tr>
-      <td><%= "質問#{index}" %></td>
-      <td><%= question.question %></td>
+<div class="mt-5 row w-75 mx-auto">
+  <table class="table text-center mt-2 table-bordered border-dark">
+    <tr class="bg-primary text-white">
+      <th class='col-2'>テーマ名</th>
+      <th><%= @thema.name %></th>
     </tr>
-  <% end %>
+    <tr class="bg-warning">
+      <td>目的</td>
+      <td><%= @thema.purpose %></td>
+    </tr>
+    <% @thema.questions.each.with_index(1) do |question, index| %>
+      <tr>
+        <td><%= "質問#{index}" %></td>
+        <td><%= question.question %></td>
+      </tr>
+    <% end %>
+  </div>
 </table>
 
