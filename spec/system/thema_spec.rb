@@ -223,12 +223,12 @@ RSpec.describe '質問・回答機能', type: :system do
         FactoryBot.create(:answer3, question_id: question_ids[2])
         visit answers_path(Thema.last.id)
         tables = all('table')
-        expect(tables[0]).to have_content "Answer_No_1"
-        expect(tables[0]).to have_content "hoge(@fuga)"
-        expect(tables[1]).to have_content "Answer_No_2"
+        expect(tables[1]).to have_content "Answer_No_1"
         expect(tables[1]).to have_content "hoge(@fuga)"
-        expect(tables[2]).to have_content "Answer_No_3"
-        expect(tables[2]).to have_content "hoge(@fuga)"
+        expect(tables[3]).to have_content "Answer_No_2"
+        expect(tables[3]).to have_content "hoge(@fuga)"
+        expect(tables[5]).to have_content "Answer_No_3"
+        expect(tables[5]).to have_content "hoge(@fuga)"
       end
     end
     context '回答一覧_2人回答' do
@@ -247,30 +247,30 @@ RSpec.describe '質問・回答機能', type: :system do
       it '正しく表示される' do
         visit answers_path(Thema.last.id)
         trs = all('tr')
-        expect(trs[1]).to have_content "hoge(@fuga)"
-        expect(trs[1]).to have_content "Answer_No_1"
-        expect(trs[2]).to have_content "motoya(@puchanpig)"
-        expect(trs[2]).to have_content "motoya_answer"
+        expect(trs[2]).to have_content "hoge(@fuga)"
+        expect(trs[2]).to have_content "Answer_No_1"
+        expect(trs[3]).to have_content "motoya(@puchanpig)"
+        expect(trs[3]).to have_content "motoya_answer"
       end
       it 'テーマ一覧から回答ユーザーを選択すると回答ユーザーの回答のみ表示される' do
         visit thema_path(Thema.last.id)
         click_on "hoge(@fuga)"
         tables = all('table')
-        expect(tables[0]).to have_content "hoge(@fuga)"
-        expect(tables[0]).to have_no_content "motoya(@puchanpig)"
+        expect(tables[1]).to have_content "hoge(@fuga)"
+        expect(tables[1]).to have_no_content "motoya(@puchanpig)"
       end
       it '一覧で検索すると全件が、ユーザーを選択すると選択したユーザーのみ検索可能' do
         visit answers_path(Thema.last.id)
         select "hoge(@fuga)"
         click_on "検索"
         tables = all('table')
-        expect(tables[0]).to have_content "hoge(@fuga)"
-        expect(tables[0]).to have_no_content "motoya(@puchanpig)"
+        expect(tables[1]).to have_content "hoge(@fuga)"
+        expect(tables[1]).to have_no_content "motoya(@puchanpig)"
         select "全件"
         click_on "検索"
         tables = all('table')
-        expect(tables[0]).to have_content "hoge(@fuga)"
-        expect(tables[0]).to have_content "motoya(@puchanpig)"
+        expect(tables[1]).to have_content "hoge(@fuga)"
+        expect(tables[1]).to have_content "motoya(@puchanpig)"
       end
     end
     context '回答用URL確認画面' do
