@@ -14,7 +14,7 @@ RSpec.describe 'KJ法実施機能', type: :system do
         Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
         Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
         visit login_path
-        click_on 'Twitterでサインアップしてね'
+        find('.twitter_login').click
       end
       it 'KJ法実施選択画面に遷移できない' do
         visit new_place_path(Thema.last.id)
@@ -55,7 +55,7 @@ RSpec.describe 'KJ法実施機能', type: :system do
         Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
         Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
         visit login_path
-        click_on 'Twitterでサインアップしてね'
+        find('.twitter_login').click
         FactoryBot.create(:question_lock_true)
         FactoryBot.create(:question_only, thema_id: Thema.last.id)
         FactoryBot.create(:question_only, thema_id: Thema.last.id)
@@ -82,7 +82,7 @@ RSpec.describe 'KJ法実施機能', type: :system do
         Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
         Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
         visit login_path
-        click_on 'Twitterでサインアップしてね'
+        find('.twitter_login').click
         FactoryBot.create(:question_lock_true)
         FactoryBot.create(:question_only, thema_id: Thema.last.id)
         FactoryBot.create(:question_only, thema_id: Thema.last.id)
@@ -116,7 +116,7 @@ RSpec.describe 'KJ法実施機能', type: :system do
         Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
         Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
         visit login_path
-        click_on 'Twitterでサインアップしてね'
+        find('.twitter_login').click
         FactoryBot.create(:question_lock_true)
         FactoryBot.create(:question_only, thema_id: Thema.last.id)
         FactoryBot.create(:question_only, thema_id: Thema.last.id)

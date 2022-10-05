@@ -1,49 +1,75 @@
 <p id="notice"><%= notice %></p>
 <h1>メインページ</h1>
 
-<p>
-  <strong>テーマ名:</strong>
-  <%= @thema.name %>
-</p>
+<div class="w-100 row">
+  <p class="h2 text-center">
+    <strong>テーマ:</strong>
+    <%= @thema.name %>
+  </p>
 
-<p>
-  <strong>目的:</strong>
-  <%= @thema.purpose %>
-</p>
+  <div id="main_purpose" class="col-6 mx-auto border border-5 border-dark">
+    <div id="sub_purpose" class="h2 border-end border-2 border-dark bg-primary text-white float-start p-3">目的:</div>
+    <div class=""><%= @thema.purpose %></div>
+  </div>
 
-<% unless @thema.lock%>
-  <%= link_to 'テーマ・質問編集画面', edit_thema_path(@thema)%> |
-  <%= link_to '回答URL確認画面', confirm_thema_path(@thema)%> |
-  <s>回答一覧</s> |
-  <s>KJ法実施</s> |
-<% else %>
-  <s>テーマ・質問編集画面</s> |
-  <%= link_to '回答URL確認画面', confirm_thema_path(@thema)%> |
-  <%= link_to '回答一覧', answers_path(@thema) %> |
-  <% if Place.find_by(thema_id: @thema.id)%>
-    <%= link_to 'KJ法実施', edit_place_path(@thema.places.first) %> |
-    <%= link_to 'KJ法結果', place_path(@thema.places.first) %>
-    <% result_url="http://localhost:3000#{place_path(@thema.places.first)}" %>
-    <% tweet_url="https://twitter.com/intent/tweet?text=#{@thema.name}のKJ法結果です!!!%0A#{result_url}%0A/&hashtags=デジタルKJ法" %>
-    <%= link_to tweet_url do %>
-      <i class="fab fa-twitter twitter"></i>
-    <% end %>
-  <% else %>
-    <%= link_to 'KJ法実施', new_place_path(@thema) %> |
-  <% end %>
-<% end %>
-
-<% if @thema.answer_user_ids %>
-  <ul>回答者
-  <% @thema.answer_user_ids.each do |id| %>
-    <% user=User.find(id) %>
-    <li class="answer_person">
-      <%= link_to "#{user.name}(@#{user.nickname})", answers_path(@thema,user_id:user.id) %>
-      <%= link_to "https://twitter.com/#{user.nickname}" do %>
-        <i class="fab fa-twitter twitter" id="twitter"></i>
+  <div class="float-start text-center mt-3">
+    <% unless @thema.lock%>
+      <%= link_to 'テーマ・質問編集画面', edit_thema_path(@thema), class: 'btn btn-warning'%> 
+      <%= link_to '回答URL確認画面', confirm_thema_path(@thema), class: 'btn btn-warning'%> 
+      <a class="btn btn-warning"><s class="text-secondary">回答一覧</s></a>
+      <a class="btn btn-warning"><s class="text-secondary">KJ法実施</s></a> 
+    <% else %>
+      <a class="btn btn-warning"><s class="text-secondary">テーマ・質問編集画面</s></a> 
+      <%= link_to '回答URL確認画面', confirm_thema_path(@thema), class: 'btn btn-warning'%> 
+      <%= link_to '回答一覧', answers_path(@thema) , class: 'btn btn-warning'%> 
+      <% if Place.find_by(thema_id: @thema.id) %>
+        <%= link_to 'KJ法実施', edit_place_path(@thema.places.first) , class: 'btn btn-warning'%> 
+        <%= link_to 'KJ法結果', place_path(@thema.places.first) , class: 'btn btn-warning'%>
+        <% result_url="http://localhost:3000#{place_path(@thema.places.first)}" %>
+        <% tweet_url="https://twitter.com/intent/tweet?text=#{@thema.name}のKJ法結果です!!!%0A#{result_url}%0A/&hashtags=デジタルKJ法" %>
+        <%= link_to tweet_url do %>
+          <i class="fab fa-twitter twitter"></i>
+        <% end %>
+      <% else %>
+        <%= link_to 'KJ法実施', new_place_path(@thema) , class: 'btn btn-warning'%> 
       <% end %>
-    </li>
-  <% end %>
-  </ul>
-<% end%>
-<%= link_to 'テーマを削除', thema_path(@thema), method: :delete %>
+    <% end %>
+  </div>
+
+  <div class="float-start text-center mt-3 row">
+    <% unless @thema.answer_user_ids.length == 0 %>
+      <ul class="list-unstyled border border-3 border-dark col-5 m-auto">
+      <span class="h3 m-3 border-bottom bg-primary text-white border-3">回答済ユーザー</span>
+      <% @thema.answer_user_ids.each do |id| %>
+        <% user=User.find(id) %>
+        <li class="answer_person">
+          <%= link_to "#{user.name}(@#{user.nickname})", answers_path(@thema,user_id:user.id) %>
+          <%= link_to "https://twitter.com/#{user.nickname}" do %>
+            <i class="fab fa-twitter twitter m-1" id="twitter"></i>
+          <% end %>
+        </li>
+      <% end %>
+      </ul>
+    <% end%>
+    <% place=@thema.places[0]%>
+    <% if place %>
+      <div class="col-5 ms-auto me-auto border border-3 border-dark">
+        <div><span class="h3 bg-primary text-white">公開状態</span></div>
+        <% if place.public %>
+          <div class="mt-1">
+            <%= link_to "現在公開中(非公開に変更)", place_path(place.id, :place=>{public:false}), method: 'patch' ,class: 'btn btn-warning mt-1'%>
+          </div>
+          <div class="btn btn-primary mt-2">
+            <%= link_to tweet_url do %>
+              <i class="fab fa-twitter twitter m-1" id="twitter"></i>
+              <span class="text-white">Twitterで公開する</span>
+            <% end %>
+          </div>
+        <% else %>
+          <%= link_to "現在非公開(公開に変更)", place_path(place.id, :place=>{public:true}), method: 'patch' ,class: 'btn btn-primary mt-1 text-white'%>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <%= button_to 'テーマを削除', thema_path(@thema), method: :delete , class:"btn btn-danger m-2"%>
+</div>

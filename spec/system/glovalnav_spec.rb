@@ -31,7 +31,7 @@ RSpec.describe 'グローバルナナビゲーション', type: :system do
       Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
       Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
       visit login_path
-      click_on 'Twitterでサインアップしてね'
+      find('.twitter_login').click
     end
     it 'Top,使い方,マイページ,テーマ作成,Logoutのみ表示される' do
       nav_elemens = all('.nav-link')
@@ -58,7 +58,7 @@ RSpec.describe 'グローバルナナビゲーション', type: :system do
       Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
       Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
       visit login_path
-      click_on 'Twitterでサインアップしてね'
+      find('.twitter_login').click
     end
     it 'Adminがfalseのとき遷移不可' do
       Capybara.raise_server_errors = false
@@ -89,7 +89,7 @@ RSpec.describe 'グローバルナナビゲーション', type: :system do
       Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # Deviseを使っている人はこれもやる
       Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
       visit login_path
-      click_on 'Twitterでサインアップしてね'
+      find('.twitter_login').click
       FactoryBot.create(:thema, name: 'test1')
       FactoryBot.create(:thema,name: 'test2')
     end

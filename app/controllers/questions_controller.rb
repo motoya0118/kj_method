@@ -17,9 +17,9 @@ class QuestionsController < ApplicationController
     if @question.update(question_params)
       if @ids.length == 0
         session['url'] = nil
-        redirect_to thema_path(@question.thema.id), notice: "question was successfully updated."
+        redirect_to thema_path(@question.thema.id)
       else
-        redirect_to new_question_path(id:@question.thema.id, ids:@ids), notice: "question was successfully updated."
+        redirect_to new_question_path(id:@question.thema.id, ids:@ids)
       end
     else
       render :edit, status: :unprocessable_entity
