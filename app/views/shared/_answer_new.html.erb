@@ -1,4 +1,3 @@
-<h1>new</h1>
 <%= form_with(model: @question) do |form| %>
   <% if @question.errors.any? %>
     <div id="error_explanation">
@@ -11,18 +10,38 @@
       </ul>
     </div>
   <% end %>
-  <h2>回答終了目安タイマー</h2>
-  <div><span id="timer">120</span>秒</div>
 
-  <h2>テーマ名</h2>
-  <div><%= @question.thema.name%></div>
+  <div class="w-100 row mt-5 float-start border-bottom border-3 pb-3 mx-auto">
+    <div class="col-9">
+    <table class="table text-center col-6 table-bordered border-dark">
+      <tr class="bg-primary text-white">
+        <th class="col-2">テーマ名</th>
+        <th><%= @question.thema.name%></th>
+      </tr>
 
-  <h2>目的</h2>
-  <div><%= @question.thema.purpose%></div>
+      <tr>
+        <td>目的</td>
+        <td><%= @question.thema.purpose%></td>
+      </tr>
+    </table>
+    </div>
 
-  <h2>質問</h2>
-  <div><%= @question.question%></div>
+    <div class="col-2 text-center btn btn-danger">回答終了目安タイマー<br>
+    <span class="h3" id="timer">120</span>秒
+    </div>
+  </div>
 
+  <div class="w-100 row float-start text-center mt-3 mx-auto">
+    <div class="col-9">
+      <table class="table table-bordered border-dark">
+        <tr>
+          <th class="col-2 bg-warning">質問内容</th>
+          <th class="col-7"><%= @question.question%></th>
+        </tr>
+      </table>
+    </DIV>
+    <div class="col-2 border border-3 border-dark h3 bg-info text-white align-items-center">残り<%= @question_ids.length%>件</div>
+  </div>
   <div class='hidden'>
     <%= form.hidden_field :id, :value => @question.id %>
     <%= form.hidden_field :ids, :value => @question_ids %>
@@ -37,9 +56,9 @@
       <% end %>
     <% end %>
   <% end %>
-  <div class="actions">
-    <%= link_to_add_association "追加", form, :answers %>
-    <%= form.submit value='送信'%>
+  <div class="text-center m-3">
+    <%= link_to_add_association "回答を追加", form, :answers,class: 'btn btn-warning me-5' %>
+    <%= form.submit value='送信',class: 'btn btn-primary ms-5'%>
   </div>
 <% end %>
 
