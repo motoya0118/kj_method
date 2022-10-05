@@ -16,3 +16,7 @@
  .nav-link:hover{
   color: burlywood !important;
  }
+
+ #gloval-nav{
+  z-index: 1;
+ }

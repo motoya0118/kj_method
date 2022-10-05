@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <nav class="navbar position-fixed navbar-light bg-dark justify-content-start w-100 top-0 start-0">
+    <nav class="navbar position-fixed navbar-light bg-dark justify-content-start w-100 top-0 start-0" id="gloval-nav">
       <%= link_to "Top", top_path, class: "nav-link text-white border p-1"%>
       <%= link_to "使い方", about_path, class: "nav-link text-white border p-1"%>
       <% if user_signed_in? %>
