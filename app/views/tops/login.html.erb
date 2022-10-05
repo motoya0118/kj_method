@@ -7,7 +7,7 @@
     <% else %>
       <div class="text-center">
         <%= link_to user_twitter_omniauth_authorize_path, method: :post, class: 'twitter_login' do %>
-          <%= image_tag 'twitter_login.png'%>
+          <%= image_tag( asset_path 'twitter_login.png')%>
         <% end %>
       </div>
       <div class="text-center row">
