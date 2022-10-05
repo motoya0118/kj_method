@@ -1,5 +1,5 @@
 <div class="nested-fields input-group justify-content-center mt-1">
   <%= f.label :answer, value="回答" , class: 'input-group-prepend bg-warning text-dark ps-2 pe-2 d-flex align-items-center border border-dark'%>
-  <%= f.text_field :answer , class:'w-75', :placeholder => "回答を入力してください"%>
+  <%= f.text_field :answer , class:'w-75', :placeholder => "回答を入力してください", maxlength: 30%>
   <%= f.hidden_field :user_id, :value => current_user.id%>
 </div>

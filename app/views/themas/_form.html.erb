@@ -17,13 +17,13 @@
       <div class="form-group row">
         <div class="input-group justify-content-center align-items-center">
           <%= form.label :name ,value='テーマ名', class: 'h3 input-group-prepend' %>
-          <%= form.text_area :name , class: 'w-50', rows: 2%>
+          <%= form.text_area :name , class: 'w-50', rows: 2, maxlength: 30 %>
         </div>
       </div>
       <div class="form-group row">
         <div class="input-group justify-content-center align-items-center input-group-prepend">
           <%= form.label :purpose, velue='目的　　' ,class: 'h3'%>
-          <%= form.text_area :purpose , class: 'w-50', rows:4 %>
+          <%= form.text_area :purpose , class: 'w-50', rows:4, maxlength: 60 %>
         </div>
       </div>
     </div>
