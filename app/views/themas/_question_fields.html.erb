@@ -1,5 +1,5 @@
 <div class="nested-fields input-group justify-content-center mt-1 ">
   <%= f.label :question, value="質問" , class: 'input-group-prepend bg-warning text-dark ps-2 pe-2 d-flex align-items-center border border-dark'%>
-  <%= f.text_field :question ,class: 'w-50'%>
+  <%= f.text_field :question ,class: 'w-50', maxlength: 30%>
   <%= link_to_remove_association "x", f, class: "btn btn-danger btn-block input-group-prepend text-white" %>
 </div>
