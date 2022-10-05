@@ -23,10 +23,10 @@ gem 'cancancan'
 gem 'devise-i18n'
 gem 'dotenv-rails' # 開発環境で環境変数を操作するのに必要
 gem 'unicorn' # アプリケーションサーバのunicorn
+gem 'spring'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'spring'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
