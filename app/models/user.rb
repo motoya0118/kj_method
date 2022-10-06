@@ -14,7 +14,7 @@ class User < ApplicationRecord
   end
 
   def self.find_for_twitter(auth)
-    user = User.find_by(email: auth.info.email)
+    user = User.find_by(nickname: auth.info.nickname)
   
     unless user
       user = User.new(name: auth.info.name,
