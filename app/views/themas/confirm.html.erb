@@ -14,7 +14,7 @@
   <h2 class="text-danger text-center">回答用URL発行済</h2><br>
   <div class="w-75 mx-auto text-center border border-dark border-2">
     <span>回答用URL:</span>
-    <% answer_url="http://54.95.75.230#{new_answer_path(@thema.id)}" %>
+    <% answer_url="https://kj-method.link#{new_answer_path(@thema.id)}" %>
     <%= link_to answer_url, new_answer_path(@thema.id) , class: 'd-block'%>
     <% tweet_url="https://twitter.com/intent/tweet?text=#{@thema.name}を解決するため下記の質問へ回答ご協力お願い致します!!!%0A#{answer_url}%0A/&hashtags=デジタルKJ法" %>
     <%= link_to tweet_url , class:'btn btn-primary mt-3 mb-2' do %>

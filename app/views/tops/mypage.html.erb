@@ -1,5 +1,5 @@
 <h2 class="text-white ps-5 pt-2"><%= "#{current_user.name}(@#{current_user.nickname})さんのページ"%></h2>
-<%= button_to 'ユーザー削除する',confirm_path ,class: 'ms-5'%>
+<%= button_to 'ユーザー削除する',confirm_path ,class: 'ms-5', method: 'get'%>
 
 <div class="w-100">
 <ul class="border border-white w-75 mx-auto mt-3 p-3 text-primary h3 text-warning list-unstyled text-center bg-dark">作成済のテーマ
