@@ -11,6 +11,8 @@ import Insert from '../insert_bigs.vue'
 import Smalls from '../insert_smalls.vue'
 import Cards from '../insert_cards.vue'
 import Btn from '../public_btn.vue'
+import Explain from '../explain_btn.vue'
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
@@ -27,6 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }).$mount()
   const btn = new Vue({
     render: h => h(Btn)
+  }).$mount()
+  document.body.appendChild(app.$el)
+  const explain = new Vue({
+    render: h => h(Explain)
   }).$mount()
   document.body.appendChild(app.$el)
 
