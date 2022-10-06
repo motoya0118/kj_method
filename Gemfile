@@ -24,13 +24,13 @@ gem 'devise-i18n'
 gem 'dotenv-rails' # 開発環境で環境変数を操作するのに必要
 gem 'unicorn' # アプリケーションサーバのunicorn
 gem 'spring'
+gem 'faker'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'launchy'
   gem 'pry-rails'
   gem 'capistrano', '3.16.0' # capistranoのツール一式
