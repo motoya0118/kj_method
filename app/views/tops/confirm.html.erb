@@ -1,5 +1,11 @@
-<h1>削除確認</h1>
-<h2>本当に削除してよろしいですか?</h2>
-<br>
-<%= link_to 'YES',user_registration_path(current_user), method: :delete%> |
-<%= link_to 'No', mypage_path%>
+<h1 class="text-white">削除確認</h1>
+
+<div class="w-100 row text-center"></div>
+  <div class="mx-auto mt-5 mb-5">
+    <h2 class="text-danger text-center">本当に削除してよろしいですか?</h2>
+  </div>
+  <div class="text-center mt-5 mb-5">
+    <%= link_to 'No', mypage_path , class: 'btn btn-warning me-3'%>
+    <%= link_to 'YES',user_registration_path(current_user), method: :delete, class: 'btn btn-danger ms-3'%>
+  </div>
+</div>
