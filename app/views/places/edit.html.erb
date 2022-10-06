@@ -13,6 +13,4 @@
 
 <%= tag.div id: :boards, data: { disabled: false, public: @place.public ,id: @place.id,lists: @place.large_groups.to_json(include: {small_groups: {include: :cards}}) } %>
 
-<%= link_to 'Show', @place ,class:'repalce-target'%> |
-<%= link_to 'Back', places_path %>
 <%= javascript_pack_tag 'hello_vue' %>
