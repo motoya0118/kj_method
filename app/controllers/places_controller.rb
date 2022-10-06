@@ -58,16 +58,15 @@ class PlacesController < ApplicationController
   end
 
   def update
-    if @place.update(place_params)
-      redirect_to thema_url(@place), notice: "thema was successfully updated." 
-    else
-      render :edit, status: :unprocessable_entity
+    @place.update!(place_params)
+    if params[:redirect]
+      redirect_to thema_url(@place), notice: "公開ステータスを変更しました!" 
     end
   end
 
   def destroy
     @place.destroy
-    redirect_to mypage_path, notice: "thema was successfully destroyed."
+    redirect_to mypage_path
   end
 
   private
