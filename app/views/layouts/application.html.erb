@@ -32,11 +32,13 @@
         <%= link_to "Login", login_path ,class: "nav-link text-white border p-1"%>
       <% end %>
     </nav>
-    <div class='<%= controller.controller_name %> pt-5'>
-      <%= yield %>
-    </div>
+    <main>
+      <div class='<%= controller.controller_name %> pt-5'>
+        <%= yield %>
+      </div>
+    </main>
   </body>
-  <footer class="footer bg-dark position-sticky w-100 bottom-0 start-0 text-center">
+  <footer class="footer bg-dark w-100 bottom-0 start-0 text-center">
     <p class="text-white float-start p-2">作成者: motoya</p>
     <%= link_to "https://twitter.com/puchan_pig" do %>
       <i class="fab fa-twitter twitter p-2"></i>
