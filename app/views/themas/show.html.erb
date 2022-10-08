@@ -25,7 +25,7 @@
       <% if Place.find_by(thema_id: @thema.id) %>
         <%= link_to 'KJ法実施', edit_place_path(@thema.places.first) , class: 'btn btn-warning'%> 
         <%= link_to 'KJ法結果', place_path(@thema.places.first) , class: 'btn btn-warning'%>
-        <% result_url="http://54.95.75.230#{place_path(@thema.places.first)}" %>
+        <% result_url="https://kj-method.link#{place_path(@thema.places.first)}" %>
         <% tweet_url="https://twitter.com/intent/tweet?text=#{@thema.name}のKJ法結果です!!!%0A#{result_url}%0A/&hashtags=デジタルKJ法" %>
         <%= link_to tweet_url do %>
           <i class="fab fa-twitter twitter"></i>
@@ -57,7 +57,7 @@
         <div><span class="h3 bg-primary text-white">公開状態</span></div>
         <% if place.public %>
           <div class="mt-1">
-            <%= link_to "現在公開中(非公開に変更)", place_path(place.id, :place=>{public:false},redirect:true), method: 'patch' ,class: 'btn btn-warning mt-1'%>
+            <%= link_to "現在公開中(非公開に変更)", place_path(place.id, :place=>{public:false},redirect:@thema.id), method: 'patch' ,class: 'btn btn-warning mt-1'%>
           </div>
           <div class="btn btn-primary mt-2">
             <%= link_to tweet_url do %>
@@ -66,7 +66,7 @@
             <% end %>
           </div>
         <% else %>
-          <%= link_to "現在非公開(公開に変更)", place_path(place.id, :place=>{public:true},redirect:true), method: 'patch' ,class: 'btn btn-primary mt-1 text-white'%>
+          <%= link_to "現在非公開(公開に変更)", place_path(place.id, :place=>{public:true},redirect:@thema.id), method: 'patch' ,class: 'btn btn-primary mt-1 text-white'%>
         <% end %>
       <% end %>
     </div>

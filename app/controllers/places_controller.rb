@@ -46,8 +46,10 @@ class PlacesController < ApplicationController
       answers_list << answers
     end
     answers_list.each do |answers|
-      @large_group = LargeGroup.create!(place_id:@place.id)
-      @small_group = SmallGroup.create!(large_group_id: @large_group.id)
+      @large_group = LargeGroup.new(place_id:@place.id)
+      @large_group.save!
+      @small_group = SmallGroup.new(large_group_id: @large_group.id)
+      @small_group.save!
       answers.each do |answer|
         @card = Card.new(content: answer, small_group_id: @small_group.id)
         @card.save!
@@ -60,7 +62,7 @@ class PlacesController < ApplicationController
   def update
     @place.update!(place_params)
     if params[:redirect]
-      redirect_to thema_url(@place), notice: "公開ステータスを変更しました!" 
+      redirect_to thema_url(params[:redirect]), notice: "公開ステータスを変更しました!" 
     end
   end
 

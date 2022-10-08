@@ -32,8 +32,7 @@ https://docs.google.com/spreadsheets/d/19gBtQsl7c9of99eKK8OHd9e151jE3XiGQxx48oJt
 https://www.figma.com/proto/m8tBgLYaRxZ22maLygL4gL/Untitled?node-id=0%3A3&starting-point-node-id=0%3A3
 
 ### ER図
-![デジタルKJ法_ER図](https://user-images.githubusercontent.com/90805736/190960682-5ca6687b-f2ab-490a-bd46-a2bee8097d62.png)
-
+![デジタルKJ法_ER図](https://user-images.githubusercontent.com/90805736/194566957-da5ea5a8-967b-43a5-8fd8-a6d2829a3500.png)
 
 ### 画面遷移図
 ![デジタルKJ法_画面遷移図](https://user-images.githubusercontent.com/90805736/190155865-792bf749-a13e-4bae-851e-2402fc61adcd.png)

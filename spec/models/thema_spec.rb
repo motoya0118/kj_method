@@ -36,7 +36,7 @@ RSpec.describe Thema, type: :model do
       it '紐づいているanswer.user_idのユニーク値を配列で返却する' do
         ct = 0
         5.times do
-          FactoryBot.create(:user,email: Faker::Internet.email)
+          FactoryBot.create(:user,nickname: Faker::JapaneseMedia::Naruto.character, email: Faker::Internet.email)
           if ct == 0
             FactoryBot.create(:question)
             ct += 1
