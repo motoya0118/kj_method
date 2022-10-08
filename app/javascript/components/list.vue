@@ -297,6 +297,12 @@ export default{
   white-space: pre-line;
   word-break: break-all;
 }
+input{
+  display: block;
+  width: 200px;
+  height: 50px;
+  vertical-align: text-top;
+}
 
 
 </style>
