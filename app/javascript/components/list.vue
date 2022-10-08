@@ -292,10 +292,10 @@ export default{
 .card {
   background-color: white;
   margin-bottom: 4px;
-  padding: 16px;
+  padding: 4px !important;
   cursor: grab;
+  white-space: pre-line;
   word-break: break-all;
-  overflow-wrap : break-word;
 }
 
 

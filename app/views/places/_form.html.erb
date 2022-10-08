@@ -12,7 +12,7 @@
   <% end %>
   <% @answer_ids.each do |id|%>
     <% user = User.find(id) %>
-    <div class="mt-2">
+    <div class="mt-2 ms-2">
       <%= form.label :user, value="#{user.name}(@#{user.nickname})" %>
       <%= form.check_box id,{checked: true, id: "#{user.name}(@#{user.nickname})"},true, false %>
     </div>

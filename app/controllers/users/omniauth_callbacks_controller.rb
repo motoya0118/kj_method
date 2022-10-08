@@ -1,7 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def twitter
     @user = User.find_for_twitter(request.env['omniauth.auth'])
-    binding.pry
     if @user.persisted?
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: "twitter") if is_navigational_format?
