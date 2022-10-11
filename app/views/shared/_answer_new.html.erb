@@ -11,11 +11,18 @@
     </div>
   <% end %>
 
-  <div class="w-100 row mt-5 float-start border-bottom border-3 pb-3 mx-auto">
-    <div class="col-9">
-    <table class="table text-center col-6 table-bordered border-dark">
+  <div class="w-100 row mt-5 float-start border-bottom border-3 pb-3 mx-auto justify-content-center">
+    <div class="mx-auto row text-center justify-content-center mb-3">
+      <div class="col-12 col-md-4 bg-danger text-white d-flex align-items-center justify-content-center me-1 mb-2 mb-md-0">回答終了目安タイマー：
+      <span class="h3" id="timer">120</span>秒
+      </div>
+      <div id="remaining" class="col-12 col-md-3 border border-3 border-dark h3 bg-info text-white d-flex align-items-center justify-content-center ms-1 p-0 mb-0">残り：<%= @question_ids.length%>件</div>
+    </div>
+
+    <div class="col-12 col-md-8">
+    <table class="table text-center col-8 col-md-6 table-bordered border-dark">
       <tr class="bg-primary text-white">
-        <th class="col-2">テーマ名</th>
+        <th class="col-4 col-md-2">テーマ名</th>
         <th><%= @question.thema.name%></th>
       </tr>
 
@@ -25,22 +32,17 @@
       </tr>
     </table>
     </div>
-
-    <div class="col-2 text-center btn btn-danger">回答終了目安タイマー<br>
-    <span class="h3" id="timer">120</span>秒
-    </div>
   </div>
 
-  <div class="w-100 row float-start text-center mt-3 mx-auto">
-    <div class="col-9">
+  <div class="w-100 row float-start text-center mt-3 mx-auto justify-content-center">
+    <div class="col-12 col-md-9">
       <table class="table table-bordered border-dark">
         <tr>
-          <th class="col-2 bg-warning">質問内容</th>
-          <th class="col-7"><%= @question.question%></th>
+          <th class="col-4 col-md-2 bg-warning">質問内容</th>
+          <th class="col-8 col-md-7"><%= @question.question%></th>
         </tr>
       </table>
-    </DIV>
-    <div class="col-2 border border-3 border-dark h3 bg-info text-white align-items-center">残り<%= @question_ids.length%>件</div>
+    </div>
   </div>
   <div class='hidden'>
     <%= form.hidden_field :id, :value => @question.id %>

@@ -109,7 +109,30 @@ Thema.last.questions.each do |question|
   end
 end
 
-
-
+#課題用に作っただけで本来は不要
+4.times do
+  Thema.create(
+    name: 'test',
+    purpose: 'test',
+    user_id: User.find_by(name: 'hoge').id
+  )
+  Question.create(
+    question:'test',
+    thema_id: Thema.last.id
+  )
+  Thema.last.update(lock: true)
+  Answer.create(
+    answer:'test',
+    question_id: Question.last.id,
+    user_id: User.find_by(name: 'hoge').id
+  )
+  Place.create(
+    thema_id: Thema.last.id,
+    user_id:User.find_by(name: 'hoge').id
+  )
+  LargeGroup.create(place_id: Place.last.id)
+  SmallGroup.create(large_group_id: LargeGroup.last.id)
+  Card.create(small_group_id: SmallGroup.last.id)
+end
 
 
