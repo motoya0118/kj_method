@@ -181,3 +181,6 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
+  Thema was successfully created: テーマを作成しました
+  Thema was successfully updated: テーマを編集しました
+  Thema was successfully destroyed: テーマを削除しました

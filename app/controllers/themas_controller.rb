@@ -24,7 +24,7 @@ class ThemasController < ApplicationController
 
     if @thema.save
       session['thema'] = @thema.id
-      redirect_to thema_url(@thema), notice: "Thema was successfully created." 
+      redirect_to thema_url(@thema), notice: t("Thema was successfully created.")
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +33,7 @@ class ThemasController < ApplicationController
 
   def update
     if @thema.update(thema_params)
-      redirect_to thema_url(@thema), notice: "Thema was successfully updated." 
+      redirect_to thema_url(@thema), notice: t("Thema was successfully updated.")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class ThemasController < ApplicationController
   def destroy
     @thema.destroy
     session['thema'] = nil
-    redirect_to mypage_path, notice: "Thema was successfully destroyed."
+    redirect_to mypage_path, notice: t("Thema was successfully destroyed.")
   end
 
   def confirm
