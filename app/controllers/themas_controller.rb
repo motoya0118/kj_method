@@ -26,6 +26,7 @@ class ThemasController < ApplicationController
       session['thema'] = @thema.id
       redirect_to thema_url(@thema), notice: t("Thema was successfully created.")
     else
+      @questions = @thema.questions.build
       render :new, status: :unprocessable_entity
     end
     
