@@ -67,7 +67,9 @@ class PlacesController < ApplicationController
   end
 
   def destroy
-    @place.destroy
+    Card.acts_as_list_no_update do
+      @place.destroy
+    end
     redirect_to mypage_path
   end
 

@@ -41,7 +41,9 @@ class ThemasController < ApplicationController
   end
 
   def destroy
-    @thema.destroy
+    Card.acts_as_list_no_update do
+      @thema.destroy
+    end
     session['thema'] = nil
     redirect_to mypage_path, notice: t("Thema was successfully destroyed.")
   end

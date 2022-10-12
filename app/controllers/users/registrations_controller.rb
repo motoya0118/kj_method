@@ -4,7 +4,9 @@ class Users::RegistrationsController < ApplicationController
     super
   end
   def destroy
-    current_user.destroy
+    Card.acts_as_list_no_update do
+      current_user.destroy
+    end
     redirect_to top_path, notice: 'ユーザーを削除しました'
   end
 end

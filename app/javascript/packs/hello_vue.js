@@ -35,8 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     render: h => h(Explain)
   }).$mount()
   document.body.appendChild(app.$el)
-
-  console.log(app)
 })
 
 
