@@ -108,7 +108,6 @@ ActiveRecord::Schema.define(version: 2022_09_30_131154) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
-  add_foreign_key "cards", "small_groups"
   add_foreign_key "large_groups", "places"
   add_foreign_key "places", "themas"
   add_foreign_key "places", "users"
