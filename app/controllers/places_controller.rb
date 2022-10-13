@@ -45,6 +45,7 @@ class PlacesController < ApplicationController
     if answers.length > 0
       answers_list << answers
     end
+    ActiveRecord::Base.connection.execute("SELECT setval('cards_id_seq', coalesce((SELECT MAX(id)+1 FROM cards), 1), false)")
     answers_list.each do |answers|
       @large_group = LargeGroup.new(place_id:@place.id)
       @large_group.save!
