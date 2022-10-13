@@ -5,14 +5,11 @@
     <% if user_signed_in? %>
       <h2 class="text-white text-center">ログイン中です</h2>
     <% else %>
-      <div class="text-center">
-        <%= link_to user_twitter_omniauth_authorize_path, method: :post, class: 'twitter_login' do %>
-          <%= image_tag( asset_path 'twitter_login.png')%>
+      <div class="text-center mt-5">
+        <%= link_to user_twitter_omniauth_authorize_path, method: :post, class: 'twitter_login btn btn-primary' do %>
+          <i class="fab fa-twitter twitter m-1" id="twitter"></i>
+              <span class="text-white">Login / Sign_in</span>
         <% end %>
-      </div>
-      <div class="text-center row">
-        <%= button_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'col-3 m-3' %>
-        <%= button_to 'Adminログイン', users_admin_sign_in_path, method: :post, class: 'col-3' %>
       </div>
     <% end %>
   </div>
