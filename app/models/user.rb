@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,:omniauthable, omniauth_providers: %i(twitter)
+         :recoverable, :rememberable,:omniauthable, omniauth_providers: %i(twitter)
   
   has_many :places
   has_many :themas, dependent: :destroy
